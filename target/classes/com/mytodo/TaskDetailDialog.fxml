@@ -6,7 +6,7 @@
 
 <DialogPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.todoapp.TaskDetailController">
+            fx:controller="com.mytodo.TaskDetailController">
 
     <content>
         <VBox spacing="10" style="-fx-padding: 10;">
@@ -14,10 +14,14 @@
             <TextField fx:id="titleField" promptText="例如：提交报告"/>
 
             <Label text="截止日期:"/>
-            <DatePicker fx:id="dueDatePicker"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <DatePicker fx:id="dueDatePicker" HBox.hgrow="ALWAYS"/>
+                <Label text="截止时间:"/>
+                <Spinner fx:id="dueTimeSpinner" prefWidth="100"/>
+            </HBox>
 
             <Label text="优先级:"/>
-            <ChoiceBox fx:id="priorityBox"/>
+            <ChoiceBox fx:id="priorityBox" maxWidth="Infinity"/>
 
             <Label text="任务描述:"/>
             <TextArea fx:id="descArea" prefRowCount="3"/>

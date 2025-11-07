@@ -1,0 +1,94 @@
+/* 基础 */
+.root {
+    -fx-font-family: "SF Pro Text", "Segoe UI", "Microsoft YaHei";
+    -fx-background-color: linear-gradient(to bottom right, #f6f7fb, #eceff4);
+}
+
+/* 左侧侧边栏 */
+#sidebar {
+    -fx-background-color: #f2f3f5;
+    -fx-background-radius: 16;
+    -fx-padding: 8 0 8 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0, 0, 2);
+}
+
+/* 头像圆形 */
+.avatar {
+    -fx-background-color: #dbe2ff;
+    -fx-background-radius: 999;
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
+    -fx-alignment: center;
+}
+.avatar-text {
+    -fx-text-fill: #3a47d5;
+    -fx-font-weight: bold;
+}
+
+/* 个人信息 */
+.profile-name { -fx-font-size: 13.5px; -fx-font-weight: bold; }
+.profile-mail { -fx-text-fill: #7b7f88; -fx-font-size: 11.5px; }
+
+/* 搜索框 */
+.text-field.search {
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+    -fx-prompt-text-fill: #9aa0a6;
+}
+
+/* 导航项 */
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #202124;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 8;
+    -fx-font-size: 13.5px;
+}
+.nav-item:hover { -fx-background-color: rgba(0,0,0,0.06); }
+.nav-item.selected { -fx-background-color: rgba(58,122,254,0.18); -fx-text-fill: #1b56ff; }
+
+/* 扁平化按钮 */
+.flat-ghost {
+    -fx-background-color: transparent; -fx-text-fill: #3a7afe; -fx-font-weight: bold;
+}
+.flat-icon {
+    -fx-background-color: transparent; -fx-font-size: 14px;
+}
+
+/* 标题与副标题 */
+.hero-title { -fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: white; }
+.hero-sub   { -fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 12.5px; }
+
+/* 顶部右侧圆形图标按钮 */
+.round-icon {
+    -fx-background-color: rgba(0,0,0,0.35);
+    -fx-text-fill: white;
+    -fx-background-radius: 14;
+    -fx-padding: 6 10 6 10;
+}
+.round-icon:hover { -fx-background-color: rgba(0,0,0,0.5); }
+
+/* 英雄图卡片（可放图片） */
+.hero-card {
+    -fx-background-radius: 16;
+    -fx-background-color: linear-gradient(to bottom, #4f7ccf, #6db9c7);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0, 0, 8);
+    -fx-padding: 16;
+}
+
+/* 添加任务条 */
+.task-bar {
+    -fx-background-color: rgba(0,0,0,0.65);
+    -fx-background-radius: 14;
+}
+.task-add-icon { -fx-text-fill: white; -fx-font-size: 18px; }
+.task-bar .text-field {
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+}
+.button.primary {
+    -fx-background-color: #3a7afe; -fx-text-fill: white; -fx-background-radius: 10;
+    -fx-font-weight: bold;
+}
+.button.primary:hover { -fx-background-color: #2a69ff; }

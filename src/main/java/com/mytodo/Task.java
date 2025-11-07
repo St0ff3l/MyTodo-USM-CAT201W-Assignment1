@@ -1,4 +1,4 @@
-package com.todoapp;
+package com.mytodo;
 
 import javafx.beans.property.*;
 import java.time.LocalDate;
@@ -11,6 +11,14 @@ public class Task {
     private final ObjectProperty<LocalTime> time = new SimpleObjectProperty<>();
     private final StringProperty priority = new SimpleStringProperty();
     private final BooleanProperty completed = new SimpleBooleanProperty(false);
+    private final BooleanProperty important = new SimpleBooleanProperty(false);
+
+    // FIX: 必须添加无参构造函数，供 Jackson JSON 库反序列化使用 (Part 4 必需)
+    public Task() {
+        setTitle("");
+        setDescription("");
+        setPriority("普通");
+    }
 
     public Task(String title, String desc, LocalDate due, LocalTime time, String priority) {
         setTitle(title);
@@ -20,7 +28,7 @@ public class Task {
         setPriority(priority);
     }
 
-    // Getters / Setters
+    // --- Getters / Setters / Properties (完整保留) ---
     public String getTitle() { return title.get(); }
     public void setTitle(String v) { title.set(v); }
     public StringProperty titleProperty() { return title; }
@@ -44,4 +52,8 @@ public class Task {
     public boolean isCompleted() { return completed.get(); }
     public void setCompleted(boolean v) { completed.set(v); }
     public BooleanProperty completedProperty() { return completed; }
+
+    public boolean isImportant() { return important.get(); }
+    public void setImportant(boolean v) { important.set(v); }
+    public BooleanProperty importantProperty() { return important; }
 }
