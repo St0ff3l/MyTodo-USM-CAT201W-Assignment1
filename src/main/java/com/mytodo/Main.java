@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -14,7 +16,8 @@ public class Main extends Application {
         // 确保加载 CSS 样式
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-        stage.setTitle("Smart Todo v2.1");
+        // FIX: 窗口标题设置为 MyTodo
+        stage.setTitle("MyTodo");
         stage.setScene(scene);
         stage.show();
 

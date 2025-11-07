@@ -1,6 +1,7 @@
 package com.mytodo;
 
 import com.mytodo.util.JsonDataManager;
+import javafx.application.Platform; // 导入 Platform
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -32,20 +34,15 @@ public class MainController {
     // --- I/O SETUP (Part 4) ---
     private static final File DATA_FILE = new File("tasks.json");
     private final JsonDataManager dataManager = new JsonDataManager();
+    private final LocalTime DEFAULT_END_OF_DAY_TIME = LocalTime.of(23, 59);
 
 
     @FXML
     private void initialize() {
-        // 1. 加载数据
         loadTasks();
-
-        // 2. 数据绑定
         taskList.setItems(filteredTasks);
-
-        // 3. 设置自定义单元格工厂 (使用 TaskListCell)
         taskList.setCellFactory(list -> new TaskListCell(this));
 
-        // 4. 监听事件
         searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
 
         btnAll.setOnAction(e -> setNavFilter("ALL", btnAll));
@@ -53,58 +50,53 @@ public class MainController {
         btnImportant.setOnAction(e -> setNavFilter("IMPORTANT", btnImportant));
         btnFinished.setOnAction(e -> setNavFilter("FINISHED", btnFinished));
         btnPending.setOnAction(e -> setNavFilter("PENDING", btnPending));
-
-        // 默认选中 ALL
         setNavFilter("ALL", btnAll);
 
-        // 5. 快速添加
         quickAddBtn.setOnAction(e -> addQuickTask());
         quickAddField.setOnAction(e -> addQuickTask());
-
-        // 6. 打开详细添加/编辑弹窗
         detailAddBtn.setOnAction(e -> openTaskDetailDialog(null));
     }
 
     // --- CRUD 操作 ---
 
-    // 快速添加任务
     private void addQuickTask() {
         String text = quickAddField.getText();
         if (text == null || text.isBlank()) return;
-        // 快速添加时，默认时间为 23:59
-        Task task = new Task(text.trim(), "", LocalDate.now(), LocalTime.of(23, 59), "普通");
+        Task task = new Task(text.trim(), "", LocalDate.now(), DEFAULT_END_OF_DAY_TIME, "普通");
         masterTasks.add(task);
         quickAddField.clear();
         saveTasks();
     }
 
-    // 打开添加/编辑弹窗 (供按钮点击和 TaskListCell 调用)
     public void openTaskDetailDialog(Task taskToEdit) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskDetailDialog.fxml"));
             DialogPane pane = loader.load();
-
             TaskDetailController controller = loader.getController();
 
-            // 关键修正：调用 loadData() 替代 setTask()。
-            // loadData() 负责在 FXML 绑定完成后，安全地初始化 Spinner 和加载数据。
             controller.loadData(taskToEdit);
 
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setTitle(taskToEdit == null ? "添加详细任务" : "编辑任务");
             dialog.setDialogPane(pane);
 
-            // 等待用户操作
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    controller.onOK();
+                    return dialogButton;
+                }
+                return null;
+            });
+
             Optional<ButtonType> result = dialog.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 Task updatedTask = controller.getTask();
                 if (updatedTask != null) {
                     if (taskToEdit == null) {
-                        masterTasks.add(updatedTask); // 添加新任务
+                        masterTasks.add(updatedTask);
                         new Alert(AlertType.INFORMATION, "✅ 已添加任务: " + updatedTask.getTitle()).show();
                     } else {
-                        // 编辑模式，只需通知视图刷新
                         taskList.refresh();
                         new Alert(AlertType.INFORMATION, "✏️ 已更新任务: " + updatedTask.getTitle()).show();
                     }
@@ -117,7 +109,6 @@ public class MainController {
         }
     }
 
-    // 删除任务 (供 TaskListCell 调用)
     public void deleteTask(Task task) {
         if (task != null) {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
@@ -134,18 +125,16 @@ public class MainController {
         }
     }
 
-    // 切换任务完成状态 (供 TaskListCell 调用)
     public void toggleCompletion(Task task) {
         task.setCompleted(!task.isCompleted());
         saveTasks();
-        applyFilters(); // 重新应用筛选
+        applyFilters();
     }
 
     // --- 筛选逻辑 (Part 3) ---
 
     private void setNavFilter(String filterType, Button selectedButton) {
         currentFilterType = filterType;
-        // UI 样式控制
         sidebar.getChildren().stream()
                 .filter(node -> node instanceof Button)
                 .map(node -> (Button)node)
@@ -159,18 +148,14 @@ public class MainController {
         String searchText = searchField.getText() != null ? searchField.getText().toLowerCase() : "";
 
         filteredTasks.setPredicate(task -> {
-            // 1. 导航栏筛选 (最高优先级)
             if (!isNavFilterMatch(task)) {
                 return false;
             }
-
-            // 2. 搜索框筛选 (关键字)
             if (!searchText.isEmpty() &&
                     !task.getTitle().toLowerCase().contains(searchText) &&
                     !task.getDescription().toLowerCase().contains(searchText)) {
                 return false;
             }
-
             return true;
         });
     }
@@ -179,18 +164,12 @@ public class MainController {
         boolean isToday = task.getDueDate().isEqual(LocalDate.now());
 
         switch (currentFilterType) {
-            case "ALL":
-                return true;
-            case "TODAY":
-                return isToday; // 优先级高：今日任务，无论完成与否都显示
-            case "IMPORTANT":
-                return task.isImportant(); // 重要性取决于 isImportant 属性
-            case "FINISHED":
-                return task.isCompleted();
-            case "PENDING":
-                return !task.isCompleted();
-            default:
-                return true;
+            case "ALL": return true;
+            case "TODAY": return isToday;
+            case "IMPORTANT": return task.isImportant();
+            case "FINISHED": return task.isCompleted();
+            case "PENDING": return !task.isCompleted();
+            default: return true;
         }
     }
 
@@ -207,5 +186,47 @@ public class MainController {
     // 供 Main.java 调用，确保在关闭时保存
     public void saveAndExit() {
         saveTasks();
+        // --- 最终修正：确保应用退出 ---
+        Platform.exit();
+        System.exit(0);
+    }
+
+    // --- 菜单栏功能实现 ---
+
+    // File -> Exit 菜单绑定
+    @FXML private void handleExit() {
+        saveAndExit();
+    }
+
+    // Edit -> Delete All Completed 菜单绑定
+    @FXML
+    private void handleDeleteCompleted() {
+        Alert confirm = new Alert(AlertType.CONFIRMATION);
+        confirm.setTitle("清理任务");
+        confirm.setHeaderText("确认删除所有已完成的任务吗？");
+        confirm.setContentText("此操作不可撤销。");
+
+        Optional<ButtonType> result = confirm.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // 移除所有已完成的任务
+            masterTasks.removeIf(Task::isCompleted);
+
+            // 重新应用筛选和保存
+            applyFilters();
+            saveTasks();
+        }
+    }
+
+    // Help -> About 菜单绑定
+    @FXML
+    private void handleHelp() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("关于 MyTodo");
+        alert.setHeaderText("CAT201 Integrated Software Development Workshop Assignment I");
+        alert.setContentText("版本: v2.1 (JavaFX)\n" +
+                "功能: Task Management, Search & Filter, JSON I/O\n" +
+                "组员: [在此处填写您的组员姓名/学号]");
+        alert.showAndWait();
     }
 }
