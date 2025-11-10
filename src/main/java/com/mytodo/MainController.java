@@ -1,7 +1,7 @@
 package com.mytodo;
 
 import com.mytodo.util.JsonDataManager;
-import javafx.application.Platform; // 导入 Platform
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -21,7 +21,7 @@ public class MainController {
 
     // --- FXML BINDINGS ---
     @FXML private TextField searchField, quickAddField;
-    @FXML private Button quickAddBtn, detailAddBtn, filterBtn;
+    @FXML private Button quickAddBtn, detailAddBtn, filterBtn; // filterBtn reused as "Search" button in FXML text
     @FXML private Button btnToday, btnImportant, btnAll, btnFinished, btnPending;
     @FXML private ListView<Task> taskList;
     @FXML private VBox sidebar;
@@ -36,36 +36,80 @@ public class MainController {
     private final JsonDataManager dataManager = new JsonDataManager();
     private final LocalTime DEFAULT_END_OF_DAY_TIME = LocalTime.of(23, 59);
 
-
     @FXML
     private void initialize() {
         loadTasks();
+
+        // bind ListView
         taskList.setItems(filteredTasks);
         taskList.setCellFactory(list -> new TaskListCell(this));
 
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        // Search: only trigger on Enter or when filterBtn (Search) is clicked
+        if (searchField != null) {
+            searchField.setOnAction(e -> {
+                System.out.println("[DEBUG] search triggered by Enter: '" + searchField.getText() + "'");
+                performSearch();
+            });
+        } else {
+            System.err.println("[WARN] searchField is null (FXML not injected?)");
+        }
 
-        btnAll.setOnAction(e -> setNavFilter("ALL", btnAll));
-        btnToday.setOnAction(e -> setNavFilter("TODAY", btnToday));
-        btnImportant.setOnAction(e -> setNavFilter("IMPORTANT", btnImportant));
-        btnFinished.setOnAction(e -> setNavFilter("FINISHED", btnFinished));
-        btnPending.setOnAction(e -> setNavFilter("PENDING", btnPending));
-        setNavFilter("ALL", btnAll);
+        if (filterBtn != null) {
+            filterBtn.setOnAction(e -> {
+                System.out.println("[DEBUG] search triggered by filterBtn click: '" + (searchField == null ? "" : searchField.getText()) + "'");
+                performSearch();
+            });
+        } else {
+            System.err.println("[WARN] filterBtn is null (FXML not injected?)");
+        }
 
-        quickAddBtn.setOnAction(e -> addQuickTask());
-        quickAddField.setOnAction(e -> addQuickTask());
-        detailAddBtn.setOnAction(e -> openTaskDetailDialog(null));
+        // keep left navigation buttons (All/Today/Important/Finished/Pending)
+        if (btnAll != null) btnAll.setOnAction(e -> setNavFilter("ALL", btnAll));
+        else System.err.println("[WARN] btnAll is null (FXML not injected?)");
+
+        if (btnToday != null) btnToday.setOnAction(e -> setNavFilter("TODAY", btnToday));
+        else System.err.println("[WARN] btnToday is null (FXML not injected?)");
+
+        if (btnImportant != null) btnImportant.setOnAction(e -> setNavFilter("IMPORTANT", btnImportant));
+        else System.err.println("[WARN] btnImportant is null (FXML not injected?)");
+
+        if (btnFinished != null) btnFinished.setOnAction(e -> setNavFilter("FINISHED", btnFinished));
+        else System.err.println("[WARN] btnFinished is null (FXML not injected?)");
+
+        if (btnPending != null) btnPending.setOnAction(e -> setNavFilter("PENDING", btnPending));
+        else System.err.println("[WARN] btnPending is null (FXML not injected?)");
+
+        // default ALL
+        if (btnAll != null) {
+            setNavFilter("ALL", btnAll);
+        } else {
+            currentFilterType = "ALL";
+            applyFilters();
+        }
+
+        // quick add & detail
+        if (quickAddBtn != null) quickAddBtn.setOnAction(e -> addQuickTask());
+        if (quickAddField != null) quickAddField.setOnAction(e -> addQuickTask());
+        if (detailAddBtn != null) detailAddBtn.setOnAction(e -> openTaskDetailDialog(null));
     }
 
-    // --- CRUD 操作 ---
+    // perform search (triggered by Enter or Search button)
+    private void performSearch() {
+        applyFilters();
+        System.out.println("[DEBUG] performSearch completed. results=" + filteredTasks.size());
+    }
+
+    // --- CRUD operations ---
 
     private void addQuickTask() {
         String text = quickAddField.getText();
         if (text == null || text.isBlank()) return;
-        Task task = new Task(text.trim(), "", LocalDate.now(), DEFAULT_END_OF_DAY_TIME, "普通");
+        Task task = new Task(text.trim(), "", LocalDate.now(), DEFAULT_END_OF_DAY_TIME, "Normal");
         masterTasks.add(task);
         quickAddField.clear();
         saveTasks();
+        // refresh current filters/search
+        applyFilters();
     }
 
     public void openTaskDetailDialog(Task taskToEdit) {
@@ -77,7 +121,7 @@ public class MainController {
             controller.loadData(taskToEdit);
 
             Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setTitle(taskToEdit == null ? "添加详细任务" : "编辑任务");
+            dialog.setTitle(taskToEdit == null ? "Add Task" : "Edit Task");
             dialog.setDialogPane(pane);
 
             dialog.setResultConverter(dialogButton -> {
@@ -95,31 +139,34 @@ public class MainController {
                 if (updatedTask != null) {
                     if (taskToEdit == null) {
                         masterTasks.add(updatedTask);
-                        new Alert(AlertType.INFORMATION, "✅ 已添加任务: " + updatedTask.getTitle()).show();
+                        new Alert(AlertType.INFORMATION, "✅ Task added: " + updatedTask.getTitle()).show();
                     } else {
                         taskList.refresh();
-                        new Alert(AlertType.INFORMATION, "✏️ 已更新任务: " + updatedTask.getTitle()).show();
+                        new Alert(AlertType.INFORMATION, "✏️ Task updated: " + updatedTask.getTitle()).show();
                     }
                     saveTasks();
+                    applyFilters();
                 }
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
+            new Alert(AlertType.ERROR, "Failed to open task dialog: " + ex.getMessage()).showAndWait();
         }
     }
 
     public void deleteTask(Task task) {
         if (task != null) {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
-            confirm.setTitle("删除确认");
+            confirm.setTitle("Delete Confirmation");
             confirm.setHeaderText(null);
-            confirm.setContentText("确定要删除任务: " + task.getTitle() + " 吗？");
+            confirm.setContentText("Are you sure you want to delete task: " + task.getTitle() + " ?");
 
             confirm.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     masterTasks.remove(task);
                     saveTasks();
+                    applyFilters();
                 }
             });
         }
@@ -131,37 +178,66 @@ public class MainController {
         applyFilters();
     }
 
-    // --- 筛选逻辑 (Part 3) ---
+    // --- Filtering logic (left-nav + search box) ---
 
     private void setNavFilter(String filterType, Button selectedButton) {
         currentFilterType = filterType;
-        sidebar.getChildren().stream()
-                .filter(node -> node instanceof Button)
-                .map(node -> (Button)node)
-                .forEach(btn -> btn.getStyleClass().remove("selected"));
 
-        selectedButton.getStyleClass().add("selected");
+        if (sidebar != null) {
+            sidebar.getChildren().stream()
+                    .filter(node -> node instanceof Button)
+                    .map(node -> (Button)node)
+                    .forEach(btn -> btn.getStyleClass().remove("selected"));
+        } else {
+            System.err.println("[WARN] sidebar is null in setNavFilter()");
+        }
+
+        if (selectedButton != null) {
+            selectedButton.getStyleClass().add("selected");
+        } else {
+            System.err.println("[WARN] selectedButton is null for filterType=" + filterType);
+        }
+
         applyFilters();
     }
 
     private void applyFilters() {
-        String searchText = searchField.getText() != null ? searchField.getText().toLowerCase() : "";
+        String searchText = (searchField != null && searchField.getText() != null)
+                ? searchField.getText().toLowerCase().trim() : "";
 
         filteredTasks.setPredicate(task -> {
-            if (!isNavFilterMatch(task)) {
+            try {
+                if (task == null) return false;
+
+                // 1) left-nav filter
+                if (!isNavFilterMatch(task)) return false;
+
+                // 2) search keyword (if empty => pass)
+                if (searchText.isEmpty()) return true;
+
+                String title = task.getTitle() == null ? "" : task.getTitle().toLowerCase();
+                String desc = task.getDescription() == null ? "" : task.getDescription().toLowerCase();
+
+                return title.contains(searchText) || desc.contains(searchText);
+            } catch (Exception ex) {
+                System.err.println("[ERROR] exception in applyFilters predicate: " + ex);
+                ex.printStackTrace();
                 return false;
             }
-            if (!searchText.isEmpty() &&
-                    !task.getTitle().toLowerCase().contains(searchText) &&
-                    !task.getDescription().toLowerCase().contains(searchText)) {
-                return false;
-            }
-            return true;
         });
+
+        System.out.println("[DEBUG] applyFilters -> currentFilterType=" + currentFilterType + " search='" + searchText + "' remaining=" + filteredTasks.size());
     }
 
     private boolean isNavFilterMatch(Task task) {
-        boolean isToday = task.getDueDate().isEqual(LocalDate.now());
+        boolean isToday = false;
+        try {
+            if (task.getDueDate() != null) {
+                isToday = task.getDueDate().isEqual(LocalDate.now());
+            }
+        } catch (Exception ex) {
+            System.err.println("[WARN] isNavFilterMatch: error checking isToday for task '" + (task.getTitle()==null?"":task.getTitle()) + "': " + ex);
+        }
 
         switch (currentFilterType) {
             case "ALL": return true;
@@ -183,50 +259,41 @@ public class MainController {
         dataManager.save(DATA_FILE, masterTasks);
     }
 
-    // 供 Main.java 调用，确保在关闭时保存
+    // used by Main.java to ensure save on exit
     public void saveAndExit() {
         saveTasks();
-        // --- 最终修正：确保应用退出 ---
         Platform.exit();
         System.exit(0);
     }
 
-    // --- 菜单栏功能实现 ---
+    // --- Menu actions ---
 
-    // File -> Exit 菜单绑定
     @FXML private void handleExit() {
         saveAndExit();
     }
 
-    // Edit -> Delete All Completed 菜单绑定
     @FXML
     private void handleDeleteCompleted() {
         Alert confirm = new Alert(AlertType.CONFIRMATION);
-        confirm.setTitle("清理任务");
-        confirm.setHeaderText("确认删除所有已完成的任务吗？");
-        confirm.setContentText("此操作不可撤销。");
+        confirm.setTitle("Clear Completed Tasks");
+        confirm.setHeaderText("Confirm delete all completed tasks?");
+        confirm.setContentText("This action cannot be undone.");
 
         Optional<ButtonType> result = confirm.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // 移除所有已完成的任务
             masterTasks.removeIf(Task::isCompleted);
-
-            // 重新应用筛选和保存
             applyFilters();
             saveTasks();
         }
     }
 
-    // Help -> About 菜单绑定
     @FXML
     private void handleHelp() {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("关于 MyTodo");
+        alert.setTitle("About MyTodo");
         alert.setHeaderText("CAT201 Integrated Software Development Workshop Assignment I");
-        alert.setContentText("版本: v2.1 (JavaFX)\n" +
-                "功能: Task Management, Search & Filter, JSON I/O\n" +
-                "组员: [在此处填写您的组员姓名/学号]");
+        alert.setContentText("Version: v2.1 (JavaFX)\nFeatures: Task Management, Search & Filter, JSON I/O\nTeam: [add team members here]");
         alert.showAndWait();
     }
 }

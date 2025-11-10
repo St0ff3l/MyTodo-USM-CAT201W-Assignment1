@@ -1,6 +1,6 @@
-/* 基础 */
+/* 基础：恢复为常规 UI 字体（不要把 emoji 放在这里） */
 .root {
-    -fx-font-family: "SF Pro Text", "Segoe UI", "Microsoft YaHei";
+    -fx-font-family: "SF Pro Text", "Segoe UI", "Microsoft YaHei", "Noto Sans";
     -fx-background-color: linear-gradient(to bottom right, #f6f7fb, #eceff4);
 }
 
@@ -29,15 +29,16 @@
 .profile-name { -fx-font-size: 13.5px; -fx-font-weight: bold; }
 .profile-mail { -fx-text-fill: #7b7f88; -fx-font-size: 11.5px; }
 
-/* 搜索框 */
+/* 搜索框（确保在 FXML 中给 searchField 加上 styleClass="search"） */
 .text-field.search {
     -fx-background-radius: 10;
     -fx-background-color: white;
     -fx-prompt-text-fill: #9aa0a6;
 }
 
-/* 导航项 */
-.nav-item {
+/* 导航项：仅在侧边栏导航项优先使用 emoji 字体（不会影响其他文本） */
+#sidebar .nav-item {
+    -fx-font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "SF Pro Text", "Segoe UI", "Microsoft YaHei";
     -fx-background-color: transparent;
     -fx-text-fill: #202124;
     -fx-alignment: CENTER_LEFT;
@@ -45,8 +46,8 @@
     -fx-background-radius: 8;
     -fx-font-size: 13.5px;
 }
-.nav-item:hover { -fx-background-color: rgba(0,0,0,0.06); }
-.nav-item.selected { -fx-background-color: rgba(58,122,254,0.18); -fx-text-fill: #1b56ff; }
+#sidebar .nav-item:hover { -fx-background-color: rgba(0,0,0,0.06); }
+#sidebar .nav-item.selected { -fx-background-color: rgba(58,122,254,0.18); -fx-text-fill: #1b56ff; }
 
 /* 扁平化按钮 */
 .flat-ghost {

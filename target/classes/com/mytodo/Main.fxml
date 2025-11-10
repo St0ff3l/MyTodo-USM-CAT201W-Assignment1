@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -11,34 +11,44 @@
             prefWidth="1000" prefHeight="650">
 
     <top>
-        <VBox spacing="6" style="-fx-padding: 0 10 10 10; -fx-background-color: #f0f0f0;">
+        <VBox spacing="6" style="-fx-padding: 0 10 10 10;">
             <MenuBar>
                 <menus>
-                    <Menu text="File"/>
-                    <Menu text="Edit"/>
-                    <Menu text="Help"/>
+                    <Menu text="File">
+                        <items>
+                            <MenuItem text="Exit" onAction="#handleExit"/>
+                        </items>
+                    </Menu>
+
+                    <Menu text="Edit">
+                        <items>
+                            <MenuItem text="Delete All Completed" onAction="#handleDeleteCompleted"/>
+                        </items>
+                    </Menu>
+
+                    <Menu text="Help">
+                        <items>
+                            <MenuItem text="About" onAction="#handleHelp"/>
+                        </items>
+                    </Menu>
                 </menus>
             </MenuBar>
 
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Text text="MyTodo" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-
-                <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" spacing="10">
-                    <TextField fx:id="searchField" promptText="搜索日程..." prefWidth="250"/>
-                    <Button fx:id="filterBtn" text="筛选"/>
-                </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <TextField fx:id="searchField" promptText="Search tasks..." prefWidth="250" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="filterBtn" text="Search"/>
             </HBox>
         </VBox>
     </top>
 
     <left>
-        <VBox fx:id="sidebar" spacing="6" prefWidth="180" style="-fx-padding: 10; -fx-background-color: #e6e6e6;">
-            <Button fx:id="btnToday" text="📅 今日" maxWidth="Infinity"/>
-            <Button fx:id="btnImportant" text="⭐ 重点" maxWidth="Infinity"/>
-            <Button fx:id="btnAll" text="📋 全部" maxWidth="Infinity"/>
+        <VBox fx:id="sidebar" spacing="8" prefWidth="180" style="-fx-padding: 10; -fx-background-color: #e6e6e6;">
+            <Button fx:id="btnToday" text="📅 Today" maxWidth="Infinity" styleClass="nav-item"/>
+            <Button fx:id="btnImportant" text="⭐ Important" maxWidth="Infinity" styleClass="nav-item"/>
+            <Button fx:id="btnAll" text="📋 All" maxWidth="Infinity" styleClass="nav-item"/>
             <Separator/>
-            <Button fx:id="btnFinished" text="✅ 已完成" maxWidth="Infinity"/>
-            <Button fx:id="btnPending" text="🕒 未完成" maxWidth="Infinity"/>
+            <Button fx:id="btnPending" text="🕒 Pending" maxWidth="Infinity" styleClass="nav-item"/>
+            <Button fx:id="btnFinished" text="✅ Completed" maxWidth="Infinity" styleClass="nav-item"/>
         </VBox>
     </left>
 
@@ -47,10 +57,10 @@
     </center>
 
     <bottom>
-        <HBox spacing="10" style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1 0 0 0;" alignment="CENTER_LEFT">
-            <TextField fx:id="quickAddField" promptText="快速添加一个任务..." HBox.hgrow="ALWAYS"/>
-            <Button fx:id="quickAddBtn" text="➕ 快速添加"/>
-            <Button fx:id="detailAddBtn" text="📝 详细添加"/>
+        <HBox spacing="8" style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1 0 0 0;" alignment="CENTER_LEFT">
+            <TextField fx:id="quickAddField" promptText="Quick add a task..." HBox.hgrow="ALWAYS"/>
+            <Button fx:id="quickAddBtn" text="Add"/>
+            <Button fx:id="detailAddBtn" text="Add Details..."/>
         </HBox>
     </bottom>
 </BorderPane>

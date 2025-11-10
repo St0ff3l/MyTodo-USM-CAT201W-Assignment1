@@ -7,22 +7,27 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
 import java.time.format.DateTimeFormatter;
-import com.mytodo.MainController; // <-- 关键修正：导入 MainController 解决构造函数错误
 
-// ListCell<Task> 必须能够访问 Task 和 MainController，因此需要这两个 import
-// import com.mytodo.Task; // 假设 Task 类与 TaskListCell 在同一包下，不需要显式导入
-
+/**
+ * Custom ListCell for Task items (with real strike-through effect on completed tasks)
+ */
 public class TaskListCell extends ListCell<Task> {
 
     private final HBox rootLayout = new HBox(10);
     private final CheckBox completedCheckbox = new CheckBox();
-    private final Label titleLabel = new Label();
+
+    // --- changed: use Text instead of Label for title (supports strike-through)
+    private final Text titleText = new Text();
     private final Label detailLabel = new Label();
-    private final VBox textStack = new VBox(2, titleLabel, detailLabel);
+    private final VBox textStack = new VBox(2, titleText, detailLabel);
+
     private final MainController controller;
 
-    // 时间格式化工具
+    // Date/time formatters
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     public TaskListCell(MainController controller) {
@@ -32,23 +37,28 @@ public class TaskListCell extends ListCell<Task> {
         VBox.setVgrow(textStack, Priority.ALWAYS);
         HBox.setHgrow(textStack, Priority.ALWAYS);
 
-        // --- 交互绑定: 完成状态切换 ---
+        // toggle completion
         completedCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             Task task = getItem();
             if (task != null && task.isCompleted() != newVal) {
-                // 回调主控制器，处理数据更新、保存和 applyFilters
                 controller.toggleCompletion(task);
             }
         });
 
-        // --- 操作按钮: 编辑和删除 ---
-        Button editBtn = new Button("编辑");
+        // Edit/Delete buttons
+        Button editBtn = new Button("Edit");
         editBtn.getStyleClass().add("flat-ghost");
-        editBtn.setOnAction(e -> controller.openTaskDetailDialog(getItem()));
+        editBtn.setOnAction(e -> {
+            Task t = getItem();
+            if (t != null) controller.openTaskDetailDialog(t);
+        });
 
-        Button deleteBtn = new Button("删除");
+        Button deleteBtn = new Button("Delete");
         deleteBtn.getStyleClass().add("flat-ghost");
-        deleteBtn.setOnAction(e -> controller.deleteTask(getItem()));
+        deleteBtn.setOnAction(e -> {
+            Task t = getItem();
+            if (t != null) controller.deleteTask(t);
+        });
 
         HBox actionBox = new HBox(5, editBtn, deleteBtn);
         actionBox.setAlignment(Pos.CENTER_RIGHT);
@@ -56,8 +66,8 @@ public class TaskListCell extends ListCell<Task> {
         rootLayout.getChildren().addAll(completedCheckbox, textStack, actionBox);
         HBox.setHgrow(actionBox, Priority.ALWAYS);
 
-        // 初始样式设置
-        titleLabel.setFont(Font.font("System", FontWeight.NORMAL, 16));
+        // initial style
+        titleText.setFont(Font.font("System", FontWeight.NORMAL, 16));
         detailLabel.setStyle("-fx-text-fill: gray; -fx-font-size: 11px;");
         rootLayout.setStyle("-fx-padding: 10px 15px; -fx-background-color: #ffffff; -fx-background-radius: 8;");
     }
@@ -70,23 +80,26 @@ public class TaskListCell extends ListCell<Task> {
             setGraphic(null);
             setStyle(null);
         } else {
-            titleLabel.setText(task.getTitle());
+            String title = task.getTitle() == null ? "(No title)" : task.getTitle();
+            titleText.setText(title);
 
-            // --- 详细信息显示日期和时间 (您的修改) ---
-            String timeStr = task.getTime() != null ? task.getTime().format(TIME_FORMATTER) : "无时间";
-            detailLabel.setText("截止: " + task.getDueDate() + " " + timeStr + " | 优先级: " + task.getPriority());
+            String dateStr = task.getDueDate() != null ? task.getDueDate().format(DATE_FORMATTER) : "No due date";
+            String timeStr = (task.getTime() != null) ? task.getTime().format(TIME_FORMATTER) : "No time";
+            String priority = task.getPriority() == null ? "Normal" : task.getPriority();
+
+            detailLabel.setText("Due: " + dateStr + " " + timeStr + " | Priority: " + priority);
 
             completedCheckbox.setSelected(task.isCompleted());
 
-            // --- 划线效果 (已修正为纯 CSS 属性) ---
             if (task.isCompleted()) {
-                titleLabel.setStyle("-fx-text-fill: gray; -fx-strikethrough: true;");
-                detailLabel.setStyle("-fx-text-fill: gray; -fx-strikethrough: true;");
-                rootLayout.getStyleClass().add("task-completed-cell");
+                // ✅ real strike-through effect
+                titleText.setStrikethrough(true);
+                titleText.setStyle("-fx-fill: gray;");
+                detailLabel.setStyle("-fx-text-fill: #8a8a8a; -fx-opacity: 0.9;");
             } else {
-                titleLabel.setStyle("-fx-text-fill: black; -fx-strikethrough: false;");
-                detailLabel.setStyle("-fx-text-fill: gray; -fx-strikethrough: false;");
-                rootLayout.getStyleClass().remove("task-completed-cell");
+                titleText.setStrikethrough(false);
+                titleText.setStyle("-fx-fill: black;");
+                detailLabel.setStyle("-fx-text-fill: gray; -fx-opacity: 1.0;");
             }
 
             setGraphic(rootLayout);
