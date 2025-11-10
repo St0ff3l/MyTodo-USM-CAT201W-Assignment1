@@ -10,21 +10,21 @@
 
     <content>
         <VBox spacing="10" style="-fx-padding: 10;">
-            <Label text="任务标题:"/>
-            <TextField fx:id="titleField" promptText="例如：提交报告"/>
+            <Label text="Task Title:"/>
+            <TextField fx:id="titleField" promptText="e.g., Submit report"/>
 
-            <Label text="截止日期:"/>
+            <Label text="Due Date:"/>
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <DatePicker fx:id="dueDatePicker" HBox.hgrow="ALWAYS"/>
-                <Label text="截止时间:"/>
+                <Label text="Time:"/>
                 <Spinner fx:id="dueTimeSpinner" prefWidth="100"/>
             </HBox>
 
-            <Label text="优先级:"/>
+            <Label text="Priority:"/>
             <ChoiceBox fx:id="priorityBox" maxWidth="Infinity"/>
 
-            <Label text="任务描述:"/>
-            <TextArea fx:id="descArea" prefRowCount="3"/>
+            <Label text="Description:"/>
+            <TextArea fx:id="descArea" prefRowCount="3" promptText="Add details or notes here..."/>
         </VBox>
     </content>
 
