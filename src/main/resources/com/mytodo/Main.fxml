@@ -1,66 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.mytodo.MainController"
-            prefWidth="1000" prefHeight="650">
+<!-- 注意：改为与运行时匹配的版本号（21） -->
+<VBox prefHeight="650.0" prefWidth="1000.0" spacing="6.0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mytodo.MainController">
 
-    <top>
-        <VBox spacing="6" style="-fx-padding: 0 10 10 10;">
-            <MenuBar>
-                <menus>
-                    <Menu text="File">
-                        <items>
-                            <MenuItem text="Exit" onAction="#handleExit"/>
-                        </items>
-                    </Menu>
+    <children>
+        <!-- Top: MenuBar + Search -->
+        <VBox spacing="6" style="-fx-padding: 0 10 6 10;">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu text="File">
+                            <items>
+                                <MenuItem onAction="#handleExit" text="Exit" />
+                            </items>
+                        </Menu>
 
-                    <Menu text="Edit">
-                        <items>
-                            <MenuItem text="Delete All Completed" onAction="#handleDeleteCompleted"/>
-                        </items>
-                    </Menu>
+                        <Menu text="Edit">
+                            <items>
+                                <MenuItem onAction="#handleDeleteCompleted" text="Delete All Completed" />
+                            </items>
+                        </Menu>
 
-                    <Menu text="Help">
-                        <items>
-                            <MenuItem text="About" onAction="#handleHelp"/>
-                        </items>
-                    </Menu>
-                </menus>
-            </MenuBar>
+                        <Menu text="Help">
+                            <items>
+                                <MenuItem onAction="#handleHelp" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
 
-            <HBox alignment="CENTER_RIGHT" spacing="10">
-                <TextField fx:id="searchField" promptText="Search tasks..." prefWidth="250" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="filterBtn" text="Search"/>
-            </HBox>
+                <!-- 顶部搜索栏（已加入清空搜索按钮 ⟲） -->
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <children>
+                        <!-- styleClass="search" 用于 CSS 命中 -->
+                        <TextField fx:id="searchField" prefWidth="400.0" promptText="Search tasks..." styleClass="search" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="filterBtn" onAction="#onSearchClicked" text="Search" />
+                        <!-- 新增：清空搜索按钮（⟲），用子元素形式声明 Tooltip，兼容性更好 -->
+                        <Button fx:id="searchClearBtn" onAction="#onClearSearch" text="⟲" mnemonicParsing="false">
+                            <tooltip>
+                                <Tooltip text="Clear search"/>
+                            </tooltip>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
         </VBox>
-    </top>
 
-    <left>
-        <VBox fx:id="sidebar" spacing="8" prefWidth="180" style="-fx-padding: 10; -fx-background-color: #e6e6e6;">
-            <Button fx:id="btnToday" text="📅 Today" maxWidth="Infinity" styleClass="nav-item"/>
-            <Button fx:id="btnImportant" text="⭐ Important" maxWidth="Infinity" styleClass="nav-item"/>
-            <Button fx:id="btnAll" text="📋 All" maxWidth="Infinity" styleClass="nav-item"/>
-            <Separator/>
-            <Button fx:id="btnPending" text="🕒 Pending" maxWidth="Infinity" styleClass="nav-item"/>
-            <Button fx:id="btnFinished" text="✅ Completed" maxWidth="Infinity" styleClass="nav-item"/>
-        </VBox>
-    </left>
+        <!-- Main area -->
+        <HBox spacing="10" VBox.vgrow="ALWAYS">
+            <children>
 
-    <center>
-        <ListView fx:id="taskList" style="-fx-padding: 10; -fx-background-color: transparent;"/>
-    </center>
+                <!-- Left Navigation -->
+                <VBox fx:id="sidebar" prefWidth="180.0" spacing="8" style="-fx-padding: 10; -fx-background-color: #e6e6e6;">
+                    <children>
+                        <!-- 每个侧栏按钮带 styleClass="nav-item" -->
+                        <Button fx:id="btnToday" maxWidth="Infinity" onAction="#onFilterToday" styleClass="nav-item" text="📅 Today" />
+                        <Button fx:id="btnImportant" maxWidth="Infinity" onAction="#onFilterImportant" styleClass="nav-item" text="⭐️ Important" />
+                        <Button fx:id="btnAll" maxWidth="Infinity" onAction="#onFilterAll" styleClass="nav-item" text="📋 All" />
+                        <Separator />
+                        <Button fx:id="btnPending" maxWidth="Infinity" onAction="#onFilterPending" styleClass="nav-item" text="🕒 Pending" />
+                        <Button fx:id="btnFinished" maxWidth="Infinity" onAction="#onFilterFinished" styleClass="nav-item" text="✅ Completed" />
+                    </children>
+                </VBox>
 
-    <bottom>
-        <HBox spacing="8" style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1 0 0 0;" alignment="CENTER_LEFT">
-            <TextField fx:id="quickAddField" promptText="Quick add a task..." HBox.hgrow="ALWAYS"/>
-            <Button fx:id="quickAddBtn" text="Add"/>
-            <Button fx:id="detailAddBtn" text="Add Details..."/>
+                <!-- Right main content: StackPane 放 ListView + 悬浮卡片 -->
+                <StackPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- ListView -->
+                        <ListView fx:id="taskList" style="-fx-padding: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                            <StackPane.margin>
+                                <Insets />
+                            </StackPane.margin>
+                        </ListView>
+
+                        <!-- 浮动快速添加：父容器透传事件，子容器接收事件 -->
+                        <HBox fx:id="floatingAddBox" alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false" spacing="8" style="-fx-padding: 0 20 20 20;" StackPane.alignment="BOTTOM_CENTER">
+                            <children>
+                                <!-- 卡片：明确大小（pref/max/min），不被父拉伸；内部用 spacer 推按钮靠右 -->
+                                <HBox fx:id="quickAddContainer" alignment="CENTER_LEFT" maxHeight="45.0" maxWidth="720" minHeight="45.0" minWidth="360" mouseTransparent="false" prefHeight="45.0" prefWidth="720" spacing="8" styleClass="quick-add-container" StackPane.alignment="BOTTOM_CENTER">
+                                    <children>
+                                        <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefWidth="420.0" promptText="Quick add a task..." styleClass="quick-add-field" HBox.hgrow="NEVER">
+                                            <HBox.margin>
+                                                <Insets left="10.0" />
+                                            </HBox.margin>
+                                        </TextField>
+                                        <Region fx:id="quickAddSpacer" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="button primary" text="Add" />
+                                        <Button fx:id="detailAddBtn" onAction="#onAddDetails" styleClass="button" text="Add Details..." />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets bottom="30.0" />
+                                    </HBox.margin>
+                                </HBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </StackPane>
+            </children>
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
         </HBox>
-    </bottom>
-</BorderPane>
+    </children>
+</VBox>
