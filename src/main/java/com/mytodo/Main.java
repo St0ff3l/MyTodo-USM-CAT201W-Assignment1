@@ -16,8 +16,11 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 650);
 
-        // Ensure CSS is loaded
+        // ===== 加载基础样式 =====
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+        // ===== 加载新增的渐变主题样式（gradient.css） =====
+        scene.getStylesheets().add(getClass().getResource("gradient.css").toExternalForm());
 
         // Window title
         stage.setTitle("MyTodo");
