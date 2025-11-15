@@ -127,16 +127,37 @@
     -fx-border-color: #9aa0a6;
 }
 
-.check-box:selected > .box {
-    -fx-border-color: #3a7afe;
-    -fx-background-color: #3a7afe;
+/* =====================
+   Fix: remove default black check mark
+   ===================== */
+.check-box > .mark {
+    -fx-background-color: transparent;
+    -fx-shape: "";   /* 隐藏原生黑色勾 */
 }
 
+/* =====================
+   Custom white check ✓
+   ===================== */
+/* =====================
+   Apple-style Rounded Checkmark ✓
+   ===================== */
 .check-box:selected > .mark {
-    -fx-shape: "M 3.5 8 L 7.5 12 L 13.5 4";
-    -fx-stroke: white;
-    -fx-stroke-width: 2.2;
+    /* 圆润弯曲路径 —— 仿 SF Symbols “checkmark.circle.fill” */
+    -fx-shape: "M 5 9 C 5 9 7 11 7.8 11 C 8.6 11 12 7 12 7";
+
+    -fx-stroke: white;              /* 纯白 */
+    -fx-stroke-width: 2.0;          /* 等粗 */
+    -fx-stroke-line-cap: round;     /* 端点圆润 */
+    -fx-stroke-line-join: round;     /* 拐角也圆润（避免粗线叠加） */
     -fx-background-color: transparent;
+}
+
+
+
+
+.check-box:selected > .box {
+    -fx-background-color: #3a7afe;
+    -fx-border-color: #3a7afe;
 }
 
 /* =====================
@@ -144,12 +165,24 @@
    ===================== */
 .quick-add-container {
     -fx-background-color: white;
-    -fx-background-radius: 22;
-    -fx-border-color: transparent;
-    -fx-border-radius: 22;
-    -fx-padding: 8 14;
-    -fx-spacing: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 8, 0, 0, 2);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+
+    /* ★ 统一四边间距，都设为 10px，更和谐 */
+    -fx-padding: 10;
+
+    /* ★ 按钮之间间距 */
+    -fx-spacing: 10;
+
+    /* ★ 光效不外扩 */
+    /* ★ 柔和蓝色光效，不外扩 */
+    -fx-effect: dropshadow(gaussian, rgba(110,150,255,0.28), 16, 0.18, 0, 2),
+    dropshadow(gaussian, rgba(80,120,255,0.12), 8, 0.15, 0, 1);
+
+    /* ★ 蓝色描边，让卡片更立体 */
+    -fx-border-color: rgba(120, 160, 255, 0.55);
+    -fx-border-width: 1;
+
 }
 
 .quick-add-field {
@@ -178,11 +211,20 @@
    左侧导航栏
    ===================== */
 #sidebar {
-    -fx-background-color: #f4f5f7;
+    -fx-background-color: rgba(255,255,255,0.88); /* 比原本稍亮、从背景脱离 */
     -fx-background-radius: 16;
+
+    /* 增加轻微白色描边，让轮廓更明显 */
+    -fx-border-color: rgba(255,255,255,0.70);
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+
+    /* 更柔和的阴影，更清晰但不过分 */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 14, 0, 0, 2);
+
     -fx-padding: 10 0;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0, 0, 2);
 }
+
 
 .button.nav-item {
     -fx-background-color: transparent;
@@ -222,6 +264,11 @@
    ===================== */
 .menu-bar {
     -fx-background-color: #9CB5D1;
+
+    /* 轻柔阴影，让菜单栏更突出 */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 1);
+}
+
 }
 /* 🍎 菜单栏圆角风格（与搜索框一致） */
 .menu-bar-rounded {
@@ -280,8 +327,19 @@
    🍋 全局背景图片层（不修改原 root）
    ===================== */
 .root {
-    -fx-background-image: url("backgrounds/3eb6c4e4-092d-3213-9987-c426bb985e3a!nd_dft_wgth_jpg_3.JPEG");
+    -fx-background-image: url("backgrounds/3eb6c4e4-092d-3213-9987-c426bb985e3a!nd_dft_wgth_jpg_3.JPEG ");
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
+}
+/* =====================
+   🍏 顶部菜单栏背景区分（浅灰底）
+   ===================== */
+.menu-bar-rounded {
+    -fx-background-color: #E1E1E6; /* 柔和浅灰 */
+    -fx-background-radius: 12;
+    -fx-padding: 2 6;
+
+    /* 添加轻微阴影，让区域更立体 */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 2);
 }
