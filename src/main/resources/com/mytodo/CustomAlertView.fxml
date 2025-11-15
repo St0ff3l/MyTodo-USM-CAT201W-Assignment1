@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane fx:id="alertPane" prefWidth="400.0" styleClass="mac-style-dialog" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mytodo.CustomAlertController">
+
+    <content>
+        <VBox fx:id="contentContainer" alignment="TOP_LEFT" prefHeight="79.0" prefWidth="400.0" spacing="0">
+            <padding><Insets bottom="20" left="20" right="20" top="20" /></padding> <Label fx:id="headerLabel" styleClass="alert-header-text" wrapText="true" />
+
+            <HBox fx:id="separatorBox" maxHeight="18.0" minHeight="2.0" minWidth="500.0" prefHeight="18.0" prefWidth="400.0" style="-fx-background-color: #d4e0f0; -fx-opacity: 1;">
+            <cursor>
+               <Cursor fx:constant="DEFAULT" />
+            </cursor></HBox>
+
+            <Label fx:id="contentLabel" styleClass="alert-content-text" wrapText="true" />
+
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <VBox.margin><Insets top="20" /></VBox.margin>
+
+                <Region HBox.hgrow="ALWAYS" /> <Button fx:id="cancelButton" styleClass="btn-cancel" text="Cancel" />
+                <Button fx:id="okButton" styleClass="btn-ok" text="OK" />
+            </HBox>
+            <VBox.margin><Insets bottom="10" /></VBox.margin>
+            <VBox.margin><Insets bottom="15" /></VBox.margin>
+
+        </VBox>
+    </content>
+
+</DialogPane>

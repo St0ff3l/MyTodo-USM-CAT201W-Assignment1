@@ -16,18 +16,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" prefHeight="650.0" prefWidth="1000.0" spacing="6.0" styleClass="gradient-theme" stylesheets="gradient.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mytodo.MainController">
+<VBox fx:id="root" prefHeight="650.0" prefWidth="1000.0" spacing="6.0" styleClass="gradient-theme" stylesheets="/com/mytodo/Main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mytodo.MainController">
 
     <HBox spacing="10" VBox.vgrow="ALWAYS">
         <padding><Insets bottom="10" left="10" right="10" top="6" /></padding>
         <children>
 
-            <!-- 左侧导航栏 -->
             <VBox fx:id="sidebar" prefHeight="634.0" prefWidth="260.0" spacing="8" style="-fx-background-radius: 16; -fx-padding: 10;">
 
                 <children>
 
-                    <!-- 顶部菜单栏 -->
                     <MenuBar prefHeight="14.0" prefWidth="239.0" styleClass="menu-bar-rounded">
                         <menus>
                             <Menu text="File">
@@ -42,7 +40,6 @@
                         </menus>
                     </MenuBar>
 
-                    <!-- Today -->
                     <Button fx:id="btnToday" maxWidth="Infinity" onAction="#onFilterToday" prefHeight="26.0" styleClass="nav-item">
                         <graphic>
                             <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
@@ -52,7 +49,6 @@
                         <text>Today</text>
                     </Button>
 
-                    <!-- Important -->
                     <Button fx:id="btnImportant" maxWidth="Infinity" onAction="#onFilterImportant" styleClass="nav-item">
                         <graphic>
                             <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
@@ -62,7 +58,6 @@
                         <text>Important</text>
                     </Button>
 
-                    <!-- All -->
                     <Button fx:id="btnAll" maxWidth="Infinity" onAction="#onFilterAll" styleClass="nav-item">
                         <graphic>
                             <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
@@ -74,7 +69,6 @@
 
                     <Separator />
 
-                    <!-- Pending -->
                     <Button fx:id="btnPending" maxWidth="Infinity" onAction="#onFilterPending" styleClass="nav-item">
                         <graphic>
                             <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
@@ -84,7 +78,6 @@
                         <text>Pending</text>
                     </Button>
 
-                    <!-- Completed -->
                     <Button fx:id="btnFinished" maxWidth="Infinity" onAction="#onFilterFinished" styleClass="nav-item">
                         <graphic>
                             <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
@@ -97,44 +90,35 @@
                 </children>
             </VBox>
 
-            <!-- 右侧任务区（完全没动你的原代码） -->
             <StackPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <children>
 
                     <VBox prefHeight="200.0" prefWidth="100.0">
                         <children>
 
-                            <!-- 搜索栏 -->
-                            <!-- 🍏 Spotlight-style 搜索栏 -->
                             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-container" HBox.hgrow="ALWAYS">
 
-                                <!-- 搜索图标 -->
                                 <ImageView fitHeight="14" fitWidth="14" preserveRatio="true" styleClass="search-icon">
                                     <image>
                                         <Image url="@icons/search_icon.png" />
                                     </image>
                                 </ImageView>
 
-                                <!-- 输入框自适应展开 -->
                                 <TextField fx:id="searchField" maxHeight="28" promptText="Search tasks..." styleClass="search-field" HBox.hgrow="ALWAYS" />
 
-                                <!-- 自动把按钮推到最右侧 -->
                                 <Region HBox.hgrow="ALWAYS" />
 
-                                <!-- Search 按钮 -->
-                                <Button fx:id="filterBtn" onAction="#onSearchClicked" styleClass="search-chip-btn" text="Search">
+                                <Button fx:id="filterBtn" onAction="#onSearchClicked" styleClass="btn-search" text="Search">
                                     <font><Font size="14.0" /></font>
                                 </Button>
 
                             </HBox>
-
 
                             <ListView fx:id="taskList" style="-fx-padding: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
 
                         </children>
                     </VBox>
 
-                    <!-- 底部快速添加任务框 -->
                     <HBox fx:id="floatingAddBox" alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false" prefHeight="64.0" prefWidth="634.0" spacing="8" style="-fx-padding: 0 20 20 20;">
 
                         <children>
@@ -143,7 +127,6 @@
 
                                 <children>
 
-                                    <!-- ⭐ 新加的 + 图标 -->
                                     <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="quickadd-icon">
                                         <image><Image url="@icons/plus.png" /></image>
                                     </ImageView>
@@ -152,9 +135,9 @@
 
                                     <Region prefHeight="44.0" prefWidth="26.0" HBox.hgrow="ALWAYS" />
 
-                                    <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="button primary" text="Add" />
+                                    <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="btn-add" text="Add" />
 
-                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="102.0" styleClass="button" text="Add Details..." />
+                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="102.0" styleClass="btn-add-detail" text="Add Details..." />
 
                                 </children>
 
