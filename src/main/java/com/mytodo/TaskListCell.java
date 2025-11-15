@@ -39,6 +39,10 @@ public class TaskListCell extends ListCell<Task> {
     public TaskListCell(MainController controller) {
         this.controller = controller;
 
+        completedCheckbox.setAllowIndeterminate(false);
+        completedCheckbox.setStyle("-fx-mark-color: transparent;");
+        completedCheckbox.setGraphic(null);
+
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.setMaxWidth(Double.MAX_VALUE);
         this.setMaxWidth(Double.MAX_VALUE);

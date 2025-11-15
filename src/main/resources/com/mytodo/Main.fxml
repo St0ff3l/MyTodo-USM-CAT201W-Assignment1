@@ -18,83 +18,154 @@
 
 <VBox fx:id="root" prefHeight="650.0" prefWidth="1000.0" spacing="6.0" styleClass="gradient-theme" stylesheets="gradient.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mytodo.MainController">
 
-    <!-- 主体：左侧导航 + 右侧内容 -->
     <HBox spacing="10" VBox.vgrow="ALWAYS">
         <padding><Insets bottom="10" left="10" right="10" top="6" /></padding>
         <children>
+
             <!-- 左侧导航栏 -->
             <VBox fx:id="sidebar" prefHeight="634.0" prefWidth="260.0" spacing="8" style="-fx-background-radius: 16; -fx-padding: 10;">
-                <children> <!-- ✅ 直接复用相同样式 -->
-                    <MenuBar styleClass="menu-bar-rounded">
+
+                <children>
+
+                    <!-- 顶部菜单栏 -->
+                    <MenuBar prefHeight="14.0" prefWidth="239.0" styleClass="menu-bar-rounded">
                         <menus>
                             <Menu text="File">
-                                <items>
-                                    <MenuItem onAction="#handleExit" text="Exit" />
-                                </items>
+                                <items><MenuItem onAction="#handleExit" text="Exit" /></items>
                             </Menu>
                             <Menu text="Edit">
-                                <items>
-                                    <MenuItem onAction="#handleDeleteCompleted" text="Delete All Completed" />
-                                </items>
+                                <items><MenuItem onAction="#handleDeleteCompleted" text="Delete All Completed" /></items>
                             </Menu>
                             <Menu text="Help">
-                                <items>
-                                    <MenuItem onAction="#handleHelp" text="About" />
-                                </items>
+                                <items><MenuItem onAction="#handleHelp" text="About" /></items>
                             </Menu>
                         </menus>
                     </MenuBar>
-                    <Button fx:id="btnToday" maxWidth="Infinity" onAction="#onFilterToday" prefHeight="26.0" prefWidth="169.0" styleClass="nav-item" text="Today" />
-                    <Button fx:id="btnImportant" maxWidth="Infinity" onAction="#onFilterImportant" styleClass="nav-item" text="Important" />
-                    <Button fx:id="btnAll" maxWidth="Infinity" onAction="#onFilterAll" styleClass="nav-item" text="All" />
+
+                    <!-- Today -->
+                    <Button fx:id="btnToday" maxWidth="Infinity" onAction="#onFilterToday" prefHeight="26.0" styleClass="nav-item">
+                        <graphic>
+                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                <image><Image url="@icons/today.png" /></image>
+                            </ImageView>
+                        </graphic>
+                        <text>Today</text>
+                    </Button>
+
+                    <!-- Important -->
+                    <Button fx:id="btnImportant" maxWidth="Infinity" onAction="#onFilterImportant" styleClass="nav-item">
+                        <graphic>
+                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                <image><Image url="@icons/star.png" /></image>
+                            </ImageView>
+                        </graphic>
+                        <text>Important</text>
+                    </Button>
+
+                    <!-- All -->
+                    <Button fx:id="btnAll" maxWidth="Infinity" onAction="#onFilterAll" styleClass="nav-item">
+                        <graphic>
+                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                <image><Image url="@icons/list.png" /></image>
+                            </ImageView>
+                        </graphic>
+                        <text>All</text>
+                    </Button>
+
                     <Separator />
-                    <Button fx:id="btnPending" maxWidth="Infinity" onAction="#onFilterPending" styleClass="nav-item" text="Pending" />
-                    <Button fx:id="btnFinished" maxWidth="Infinity" onAction="#onFilterFinished" styleClass="nav-item" text="Completed" />
+
+                    <!-- Pending -->
+                    <Button fx:id="btnPending" maxWidth="Infinity" onAction="#onFilterPending" styleClass="nav-item">
+                        <graphic>
+                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                <image><Image url="@icons/pending.png" /></image>
+                            </ImageView>
+                        </graphic>
+                        <text>Pending</text>
+                    </Button>
+
+                    <!-- Completed -->
+                    <Button fx:id="btnFinished" maxWidth="Infinity" onAction="#onFilterFinished" styleClass="nav-item">
+                        <graphic>
+                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                <image><Image url="@icons/check.png" /></image>
+                            </ImageView>
+                        </graphic>
+                        <text>Completed</text>
+                    </Button>
+
                 </children>
             </VBox>
 
-            <!-- 右侧任务区 -->
+            <!-- 右侧任务区（完全没动你的原代码） -->
             <StackPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <children>
+
                     <VBox prefHeight="200.0" prefWidth="100.0">
                         <children>
 
+                            <!-- 搜索栏 -->
                             <!-- 🍏 Spotlight-style 搜索栏 -->
-                            <HBox alignment="CENTER_LEFT" maxWidth="1000" minWidth="240" prefHeight="28.0" prefWidth="882.0" spacing="8" styleClass="search-container">
+                            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-container" HBox.hgrow="ALWAYS">
+
+                                <!-- 搜索图标 -->
                                 <ImageView fitHeight="14" fitWidth="14" preserveRatio="true" styleClass="search-icon">
                                     <image>
                                         <Image url="@icons/search_icon.png" />
                                     </image>
                                 </ImageView>
-                                <TextField fx:id="searchField" maxHeight="28" prefHeight="28" prefWidth="821.0" promptText="Search tasks..." styleClass="search-field" />
 
-                                <!-- Search 按钮（⚠️ 不再套外壳；按钮本体就是圆角胶囊） -->
+                                <!-- 输入框自适应展开 -->
+                                <TextField fx:id="searchField" maxHeight="28" promptText="Search tasks..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+
+                                <!-- 自动把按钮推到最右侧 -->
+                                <Region HBox.hgrow="ALWAYS" />
+
+                                <!-- Search 按钮 -->
                                 <Button fx:id="filterBtn" onAction="#onSearchClicked" styleClass="search-chip-btn" text="Search">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
+                                    <font><Font size="14.0" /></font>
                                 </Button>
+
                             </HBox>
-                            <!-- 任务列表 -->
+
+
                             <ListView fx:id="taskList" style="-fx-padding: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
+
                         </children>
                     </VBox>
 
-                    <!-- 底部快速添加卡片 -->
+                    <!-- 底部快速添加任务框 -->
                     <HBox fx:id="floatingAddBox" alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false" prefHeight="64.0" prefWidth="634.0" spacing="8" style="-fx-padding: 0 20 20 20;">
+
                         <children>
-                            <HBox fx:id="quickAddContainer" alignment="CENTER_LEFT" maxHeight="44" maxWidth="520" minHeight="44" minWidth="360" prefHeight="44" prefWidth="520" spacing="8" styleClass="quick-add-container">
+
+                            <HBox fx:id="quickAddContainer" alignment="CENTER_LEFT" maxHeight="44" maxWidth="520" minHeight="44" minWidth="360" prefHeight="44" prefWidth="466.0" spacing="8" styleClass="quick-add-container">
+
                                 <children>
-                                    <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefWidth="320" promptText="Quick add a task..." styleClass="quick-add-field" />
-                                    <Region HBox.hgrow="ALWAYS" />
+
+                                    <!-- ⭐ 新加的 + 图标 -->
+                                    <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="quickadd-icon">
+                                        <image><Image url="@icons/plus.png" /></image>
+                                    </ImageView>
+
+                                    <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefHeight="23.0" prefWidth="288.0" promptText="Quick add a task..." styleClass="quick-add-field" />
+
+                                    <Region prefHeight="44.0" prefWidth="26.0" HBox.hgrow="ALWAYS" />
+
                                     <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="button primary" text="Add" />
-                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" styleClass="button" text="Add Details..." />
+
+                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="102.0" styleClass="button" text="Add Details..." />
+
                                 </children>
+
                             </HBox>
+
                         </children>
                     </HBox>
+
                 </children>
             </StackPane>
+
         </children>
     </HBox>
 </VBox>
