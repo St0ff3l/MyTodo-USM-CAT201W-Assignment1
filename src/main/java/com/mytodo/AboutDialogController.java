@@ -30,7 +30,7 @@ public class AboutDialogController {
             AboutDialogController controller = loader.getController();
             controller.setMessage(
                     "CAT201 Integrated Software Development Workshop Assignment I",
-                    "Version: v1.0.0 (JavaFX)\nFeatures: Task Management, Search & Filter, JSON I/O\nTeam: \nCHEN ZEKAI 23101653\nZHANG JUN 23101908\nZHANG YIFEI 23101912"
+                    "Version: v1.0.0 (JavaFX)\nFeatures: Task Management, Search & Filter, JSON I/O\nTeam: \nCHEN ZEKAI 23101653\nZHANG JUN 23101903\nZHANG YIFEI 23101912"
             );
 
             Stage aboutStage = new Stage();
