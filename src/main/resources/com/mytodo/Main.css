@@ -388,7 +388,7 @@
 }
 
 /* 8.2 Unified gray button — base / secondary actions */
-.btn-gray, .btn-add, .btn-edit, .btn-delete, .btn-add-detail, .btn-ok, .btn-cancel{
+.btn-gray, .btn-add, .btn-edit, .btn-delete, .btn-add-detail, .btn-cancel {
     /* Unified look: rounded corners, font, padding */
     -fx-background-radius: 14;
     -fx-padding: 6 14;
@@ -401,8 +401,67 @@
 }
 
 /* 8.2.1 Gray button hover */
-.btn-gray:hover {
+.btn-gray:hover, .btn-add:hover, .btn-edit:hover, .btn-delete:hover, .btn-add-detail:hover, .btn-cancel:hover {
     -fx-background-color: linear-gradient(to bottom, #d4d4d7, #c5c5c9);
+}
+
+/* 8.2.2 Gray button pressed */
+.btn-gray:pressed, .btn-add:pressed, .btn-edit:pressed, .btn-delete:pressed, .btn-add-detail:pressed, .btn-cancel:pressed {
+    -fx-background-color: linear-gradient(to bottom, #b8b8bc, #a9a9ae);
+}
+
+/* 8.3 Primary/OK Button (Blue theme, based on flat-ghost.edit) */
+.btn-ok {
+    /* Inherit font and radius from 8.2, but apply blue theme */
+    -fx-background-radius: 14; /* Keep 8.2's radius (14) instead of 11.8's (18) */
+    -fx-padding: 6 14;
+    -fx-font-weight: 500;
+    -fx-font-size: 13.5px;
+
+    /* Blue Theme */
+    -fx-background-color: rgba(80,140,255,0.18);
+    -fx-text-fill: #1b56ff;
+
+    /* Keep the same 14px radius as 8.2 */
+    -fx-background-radius: 14;
+}
+
+/* 8.3.1 OK Button Hover */
+.btn-ok:hover {
+    -fx-background-color: rgba(80,140,255,0.28);
+}
+
+/* 8.3.2 OK Button Pressed (Use a darker blue to simulate press) */
+.btn-ok:pressed {
+    -fx-background-color: rgba(80,140,255,0.38); /* Slightly darker */
+    -fx-text-fill: #1b56ff;
+}
+
+/* 8.4 Flat Ghost Theme Buttons */
+/* =====================
+   Edit / Delete button theme colors
+   ===================== */
+
+/* Edit: soft blue */
+.button.flat-ghost.edit {
+    -fx-background-color: rgba(80,140,255,0.18);
+    -fx-text-fill: #1b56ff;
+    -fx-background-radius: 18;
+    -fx-padding: 6 18;
+}
+.button.flat-ghost.edit:hover {
+    -fx-background-color: rgba(80,140,255,0.28);
+}
+
+/* Delete: soft red */
+.button.flat-ghost.delete {
+    -fx-background-color: rgba(255,90,90,0.18);
+    -fx-text-fill: #d32f2f;
+    -fx-background-radius: 18;
+    -fx-padding: 6 18;
+}
+.button.flat-ghost.delete:hover {
+    -fx-background-color: rgba(255,90,90,0.28);
 }
 
 
@@ -588,36 +647,7 @@
     -fx-border-radius: 0;
 }
 
-
-/* 11.8 (Unchanged) — Button styles */
-/* =====================
-   Edit / Delete button theme colors
-   ===================== */
-
-/* Edit: soft blue */
-.button.flat-ghost.edit {
-    -fx-background-color: rgba(80,140,255,0.18);
-    -fx-text-fill: #1b56ff;
-    -fx-background-radius: 18;
-    -fx-padding: 6 18;
-}
-.button.flat-ghost.edit:hover {
-    -fx-background-color: rgba(80,140,255,0.28);
-}
-
-/* Delete: soft red */
-.button.flat-ghost.delete {
-    -fx-background-color: rgba(255,90,90,0.18);
-    -fx-text-fill: #d32f2f;
-    -fx-background-radius: 18;
-    -fx-padding: 6 18;
-}
-.button.flat-ghost.delete:hover {
-    -fx-background-color: rgba(255,90,90,0.28);
-}
-
-
-/* 11.9 (Unchanged) — Labels */
+/* 11.8 (Unchanged) — Labels */
 .mac-style-dialog .label {
     -fx-font-size: 13px;
     -fx-text-fill: #333;
@@ -625,7 +655,7 @@
     -fx-padding: 5 0 2 2;
 }
 
-/* 11.10 ===========================
+/* 11.9 ===========================
    Circular icon choice buttons (New List dialog)
    ==================================== */
 .icon-choice-btn {
