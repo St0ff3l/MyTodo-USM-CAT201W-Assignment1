@@ -78,7 +78,6 @@ public class CustomAlertController {
 
     /**
      * Set the alert header and content message
-     * (This method remains unchanged)
      */
     public void setMessage(String header, String content) {
         if (header != null && !header.isEmpty()) {

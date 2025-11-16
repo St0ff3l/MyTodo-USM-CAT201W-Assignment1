@@ -3,7 +3,7 @@ package com.mytodo;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-// [Removed] Removed java.util.ArrayList and java.util.List
+// Removed java.util.ArrayList and java.util.List
 
 public class Task {
     private final StringProperty title = new SimpleStringProperty();
@@ -14,11 +14,11 @@ public class Task {
     private final BooleanProperty completed = new SimpleBooleanProperty(false);
     private final BooleanProperty important = new SimpleBooleanProperty(false);
 
-    // 1. [Updated] "tags" (List<String>) has been replaced by "listName" (String)
+    // 1. "tags" (List<String>) has been replaced by "listName" (String)
     private String listName;
 
 
-    // (No-argument constructor)
+
     public Task() {
         setTitle("");
         setDescription("");
@@ -27,14 +27,14 @@ public class Task {
         this.listName = null;
     }
 
-    // (Full constructor)
+
     public Task(String title, String desc, LocalDate due, LocalTime time, String priority) {
         setTitle(title);
         setDescription(desc);
         setDueDate(due);
         setTime(time);
         setPriority(priority);
-        // 3. [Updated] Default value is null
+        // 3. Default value is null
         this.listName = null;
     }
 
@@ -67,7 +67,7 @@ public class Task {
     public void setImportant(boolean v) { important.set(v); }
     public BooleanProperty importantProperty() { return important; }
 
-    // 4. [Updated] Removed getTags/setTags
+    // 4. Removed getTags/setTags
     // Replaced with getListName/setListName
 
     public String getListName() {

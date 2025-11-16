@@ -8,7 +8,7 @@ package com.mytodo; // <-- Correct package declaration
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-// [Removed] FlowPane has been removed
+//  FlowPane has been removed
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -32,9 +32,9 @@ public class TaskListCell extends ListCell<Task> {
     private final Text titleText = new Text();
     private final Label detailLabel = new Label();
 
-    // [Removed] tagContainer has been removed
+    //  tagContainer has been removed
 
-    // [Updated] Vertical text stack now only contains title and detail
+    //  Vertical text stack now only contains title and detail
     private final VBox textStack = new VBox(2, titleText, detailLabel);
 
     // --- State and constants ---
@@ -49,13 +49,13 @@ public class TaskListCell extends ListCell<Task> {
 
     /**
      * Constructor
-     * (This part remains unchanged)
+     * (This part remains )
      * @param controller the MainController instance passed in
      */
     public TaskListCell(MainController controller) {
         this.controller = controller;
 
-        // (Load CSS... unchanged)
+        // (Load CSS... )
         try {
             rootLayout.getStylesheets().add(
                     getClass().getResource("/com/mytodo/Main.css").toExternalForm()
@@ -65,7 +65,7 @@ public class TaskListCell extends ListCell<Task> {
             e.printStackTrace();
         }
 
-        // (Layout setup... unchanged)
+        // (Layout setup... )
         completedCheckbox.setAllowIndeterminate(false);
         completedCheckbox.setStyle("-fx-mark-color: transparent;");
         completedCheckbox.setGraphic(null);
@@ -75,7 +75,7 @@ public class TaskListCell extends ListCell<Task> {
         HBox.setHgrow(textStack, Priority.ALWAYS);
         VBox.setVgrow(textStack, Priority.ALWAYS);
 
-        // (Event listeners... unchanged)
+        // (Event listeners... )
         completedCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             Task task = getItem();
             if (task != null && task.isCompleted() != newVal) {
@@ -86,7 +86,7 @@ public class TaskListCell extends ListCell<Task> {
             }
         });
 
-        // (Edit button... unchanged)
+        // (Edit button... )
         Button editBtn = new Button("Edit");
         // CSS styleClasses for edit button color have already been defined
         editBtn.getStyleClass().addAll("flat-ghost", "edit");
@@ -95,7 +95,7 @@ public class TaskListCell extends ListCell<Task> {
             if (t != null) controller.openTaskDetailDialog(t);
         });
 
-        // (Delete button... unchanged)
+        // (Delete button... )
         Button deleteBtn = new Button("Delete");
         // CSS styleClasses for delete button color have already been defined
         deleteBtn.getStyleClass().addAll("flat-ghost", "delete");
@@ -104,12 +104,12 @@ public class TaskListCell extends ListCell<Task> {
             if (t != null) controller.deleteTask(t);
         });
 
-        // (Assemble layout... unchanged)
+        // (Assemble layout... )
         HBox actionBox = new HBox(5, editBtn, deleteBtn);
         actionBox.setAlignment(Pos.CENTER_RIGHT);
         rootLayout.getChildren().addAll(completedCheckbox, textStack, actionBox);
 
-        // (Style settings... unchanged)
+        // (Style settings... )
         titleText.setFont(Font.font("System", FontWeight.NORMAL, 16));
         detailLabel.setStyle("-fx-text-fill: gray; -fx-font-size: 11px;");
         rootLayout.setStyle("-fx-padding: 10px 15px 10px 15px; -fx-background-color: #ffffff; -fx-background-radius: 8;");
@@ -123,11 +123,11 @@ public class TaskListCell extends ListCell<Task> {
     protected void updateItem(Task task, boolean empty) {
         super.updateItem(task, empty);
 
-        // 1. [Updated] Empty cell handling (Bug fix)
+        // 1. Empty cell handling (Bug fix)
         if (empty || task == null) {
             setGraphic(null);
             setText(null);
-            // [Key fix] Must explicitly reset style to transparent
+            // Must explicitly reset style to transparent
             setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             return;
         }
@@ -146,7 +146,7 @@ public class TaskListCell extends ListCell<Task> {
         }
 
         // 3. Normal task rendering
-        // (Title and description text logic... unchanged)
+        // (Title and description text logic... )
         String title = task.getTitle() == null ? "(No title)" : task.getTitle().trim();
         String desc = task.getDescription() == null ? "" : task.getDescription().trim();
         String combined = desc.isEmpty() ? title : title + " • " + desc;
@@ -165,7 +165,7 @@ public class TaskListCell extends ListCell<Task> {
             detailLabel.setText(detailLabel.getText() + listStr);
         }
 
-        // (Checkbox and strikethrough logic... unchanged)
+        // (Checkbox and strikethrough logic... )
         completedCheckbox.setSelected(task.isCompleted());
         if (task.isCompleted()) {
             titleText.setStrikethrough(true);
@@ -177,11 +177,11 @@ public class TaskListCell extends ListCell<Task> {
             detailLabel.setStyle("-fx-text-fill: gray; -fx-opacity: 1.0;");
         }
 
-        // (Final setup... unchanged)
+        // (Final setup... )
         setGraphic(rootLayout);
         setStyle("-fx-padding: 4px 0; -fx-background-color: transparent;");
 
-        // (Width binding logic... unchanged)
+        // (Width binding logic...)
         if (!bindingDone && getListView() != null) {
             Platform.runLater(() -> {
                 try {

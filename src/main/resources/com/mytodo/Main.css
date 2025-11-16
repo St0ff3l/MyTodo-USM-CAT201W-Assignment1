@@ -517,10 +517,10 @@
 
 
 /* =========================================
-   11. Task Detail Dialog [Fixed]
+   11. Task Detail Dialog
    ========================================= */
 
-/* 11.2 [Unchanged] — Rounded TextField */
+/* 11.2  Rounded TextField */
 .mac-style-dialog .text-field {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
@@ -531,7 +531,7 @@
     -fx-border-radius: 14;
 }
 
-/* 11.3 [Fixed] — TextArea */
+/* 11.3 TextArea */
 .mac-style-dialog .text-area {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
@@ -542,7 +542,7 @@
     -fx-border-radius: 14;
     -fx-padding: 8px 10px;
 }
-/* * [Key fix]
+/* *
  * Force the TextArea inner content region to be gray as well
  */
 .mac-style-dialog .text-area .content {
@@ -556,7 +556,7 @@
 }
 
 
-/* 11.4 [Updated] — ChoiceBox (rounded corners) */
+/* 11.4  ChoiceBox (rounded corners) */
 .mac-style-dialog .choice-box {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
@@ -575,7 +575,7 @@
     -fx-background-color: #555;
 }
 
-/* 11.5 [Unchanged] — DatePicker (keep square corners) */
+/* 11.5  DatePicker (keep square corners) */
 .mac-style-dialog .date-picker {
     -fx-border-color: #d0d3da;
     -fx-background-color: #f0f0f0;
@@ -593,7 +593,7 @@
     -fx-padding: 0 10 0 0;
 }
 
-/* 11.6 [Unchanged] — Spinner (time picker, rounded) */
+/* 11.6 Spinner (time picker, rounded) */
 .mac-style-dialog .spinner {
     -fx-border-color: #d0d3da;
     -fx-border-width: 1px;
@@ -625,7 +625,7 @@
 }
 
 
-/* 11.7 [Updated] — Focus styles (grouped) */
+/* 11.7  Focus styles (grouped) */
 
 /* Focus effect — rounded components */
 .mac-style-dialog .text-field:focused,
@@ -647,7 +647,7 @@
     -fx-border-radius: 0;
 }
 
-/* 11.8 (Unchanged) — Labels */
+/* 11.8 Labels */
 .mac-style-dialog .label {
     -fx-font-size: 13px;
     -fx-text-fill: #333;

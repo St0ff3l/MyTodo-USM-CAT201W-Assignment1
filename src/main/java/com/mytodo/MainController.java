@@ -730,7 +730,7 @@ public class MainController {
 
 
         // ============================================================
-        // Number colors — fully aligned with icon colors (no layout change)
+        // Number colors — fully aligned with icon colors
         // ============================================================
 
         if (todayCountLabel != null)
