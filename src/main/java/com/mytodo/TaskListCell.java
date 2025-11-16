@@ -1,14 +1,14 @@
-package com.mytodo;
+package com.mytodo; // <-- Correct package declaration
 
 // ---------------------------------------------------------------------
-// 导入 (Imports)
+// Imports
 // ---------------------------------------------------------------------
 
-// JavaFX 核心
+// JavaFX core
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-// 🌟 [已移除] 移除了 FlowPane
+// [Removed] FlowPane has been removed
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -17,29 +17,29 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-// Java 标准库
+// Java standard library
 import java.time.format.DateTimeFormatter;
 
 
 /**
- * 自定义列表单元格 (TaskListCell)，用于在 ListView 中显示单个任务。
+ * Custom list cell (TaskListCell), used to display a single Task in a ListView.
  */
 public class TaskListCell extends ListCell<Task> {
 
-    // --- 布局和控件 (Fields) ---
-    private final HBox rootLayout = new HBox(10); // 根 HBox，间距 10
+    // --- Layout and controls (Fields) ---
+    private final HBox rootLayout = new HBox(10); // Root HBox with spacing = 10
     private final CheckBox completedCheckbox = new CheckBox();
     private final Text titleText = new Text();
     private final Label detailLabel = new Label();
 
-    // 🌟 [已移除] 移除了 tagContainer
+    // [Removed] tagContainer has been removed
 
-    // 🌟 [已修改] 垂直文本堆栈，现在只包含 标题 和 详情
+    // [Updated] Vertical text stack now only contains title and detail
     private final VBox textStack = new VBox(2, titleText, detailLabel);
 
-    // --- 状态与常量 ---
-    private final MainController controller; // 对主控制器的引用
-    private boolean bindingDone = false; // 宽度绑定的标志
+    // --- State and constants ---
+    private final MainController controller; // Reference to the main controller
+    private boolean bindingDone = false;     // Flag for width binding
 
     private static final double SIDE_MARGIN = 50;
     private static final double SPACER_HEIGHT = 100;
@@ -48,14 +48,14 @@ public class TaskListCell extends ListCell<Task> {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     /**
-     * 构造函数 (Constructor)
-     * (此部分保持不变)
-     * @param controller 传入的 MainController 实例
+     * Constructor
+     * (This part remains unchanged)
+     * @param controller the MainController instance passed in
      */
     public TaskListCell(MainController controller) {
         this.controller = controller;
 
-        // (加载 CSS... 保持不变)
+        // (Load CSS... unchanged)
         try {
             rootLayout.getStylesheets().add(
                     getClass().getResource("/com/mytodo/Main.css").toExternalForm()
@@ -65,7 +65,7 @@ public class TaskListCell extends ListCell<Task> {
             e.printStackTrace();
         }
 
-        // (布局设置... 保持不变)
+        // (Layout setup... unchanged)
         completedCheckbox.setAllowIndeterminate(false);
         completedCheckbox.setStyle("-fx-mark-color: transparent;");
         completedCheckbox.setGraphic(null);
@@ -75,7 +75,7 @@ public class TaskListCell extends ListCell<Task> {
         HBox.setHgrow(textStack, Priority.ALWAYS);
         VBox.setVgrow(textStack, Priority.ALWAYS);
 
-        // (事件监听... 保持不变)
+        // (Event listeners... unchanged)
         completedCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             Task task = getItem();
             if (task != null && task.isCompleted() != newVal) {
@@ -86,30 +86,30 @@ public class TaskListCell extends ListCell<Task> {
             }
         });
 
-        // (编辑按钮... 保持不变)
+        // (Edit button... unchanged)
         Button editBtn = new Button("Edit");
-        //已经为“edit”按钮添加颜色的css更新StyleClass
+        // CSS styleClasses for edit button color have already been defined
         editBtn.getStyleClass().addAll("flat-ghost", "edit");
         editBtn.setOnAction(e -> {
             Task t = getItem();
             if (t != null) controller.openTaskDetailDialog(t);
         });
 
-        // (删除按钮... 保持不变)
+        // (Delete button... unchanged)
         Button deleteBtn = new Button("Delete");
-        //已经为“delete”按钮添加颜色的css更新StyleClass
+        // CSS styleClasses for delete button color have already been defined
         deleteBtn.getStyleClass().addAll("flat-ghost", "delete");
         deleteBtn.setOnAction(e -> {
             Task t = getItem();
             if (t != null) controller.deleteTask(t);
         });
 
-        // (组装布局... 保持不变)
+        // (Assemble layout... unchanged)
         HBox actionBox = new HBox(5, editBtn, deleteBtn);
         actionBox.setAlignment(Pos.CENTER_RIGHT);
         rootLayout.getChildren().addAll(completedCheckbox, textStack, actionBox);
 
-        // (样式设置... 保持不变)
+        // (Style settings... unchanged)
         titleText.setFont(Font.font("System", FontWeight.NORMAL, 16));
         detailLabel.setStyle("-fx-text-fill: gray; -fx-font-size: 11px;");
         rootLayout.setStyle("-fx-padding: 10px 15px 10px 15px; -fx-background-color: #ffffff; -fx-background-radius: 8;");
@@ -117,22 +117,22 @@ public class TaskListCell extends ListCell<Task> {
     }
 
     /**
-     * 核心方法：当单元格被重用或数据更新时调用。
+     * Core method: called when the cell is reused or when its data is updated.
      */
     @Override
     protected void updateItem(Task task, boolean empty) {
         super.updateItem(task, empty);
 
-        // 🌟 1. [已修改] 空单元格 (Bug 修复)
+        // 1. [Updated] Empty cell handling (Bug fix)
         if (empty || task == null) {
             setGraphic(null);
             setText(null);
-            // 🌟 [关键修复] 必须显式重置样式为透明
+            // [Key fix] Must explicitly reset style to transparent
             setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             return;
         }
 
-        // 2. "幽灵"项 (Spacer Item)
+        // 2. "Ghost" item (Spacer Item)
         if ("(SPACER_ITEM)".equals(task.getTitle())) {
             Region spacer = new Region();
             spacer.setMinHeight(SPACER_HEIGHT);
@@ -140,19 +140,19 @@ public class TaskListCell extends ListCell<Task> {
             spacer.setMaxHeight(SPACER_HEIGHT);
             setGraphic(spacer);
             setText(null);
-            // (这里的透明样式是正确的)
+            // Transparent style here is correct
             setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             return;
         }
 
-        // 3. 正常任务渲染
-        // (标题和描述设置保持不变)
+        // 3. Normal task rendering
+        // (Title and description text logic... unchanged)
         String title = task.getTitle() == null ? "(No title)" : task.getTitle().trim();
         String desc = task.getDescription() == null ? "" : task.getDescription().trim();
         String combined = desc.isEmpty() ? title : title + " • " + desc;
         titleText.setText(combined);
 
-        // 4. 详情标签 (Detail Label)
+        // 4. Detail label
         String dateStr = task.getDueDate() != null ? task.getDueDate().format(DATE_FORMATTER) : "No due date";
         String timeStr = (task.getTime() != null) ? task.getTime().format(TIME_FORMATTER) : "No time";
         String priority = task.getPriority() == null ? "Normal" : task.getPriority();
@@ -165,7 +165,7 @@ public class TaskListCell extends ListCell<Task> {
             detailLabel.setText(detailLabel.getText() + listStr);
         }
 
-        // (复选框和删除线逻辑... 保持不变)
+        // (Checkbox and strikethrough logic... unchanged)
         completedCheckbox.setSelected(task.isCompleted());
         if (task.isCompleted()) {
             titleText.setStrikethrough(true);
@@ -177,11 +177,11 @@ public class TaskListCell extends ListCell<Task> {
             detailLabel.setStyle("-fx-text-fill: gray; -fx-opacity: 1.0;");
         }
 
-        // (最终设置... 保持不变)
+        // (Final setup... unchanged)
         setGraphic(rootLayout);
         setStyle("-fx-padding: 4px 0; -fx-background-color: transparent;");
 
-        // (宽度绑定逻辑... 保持不变)
+        // (Width binding logic... unchanged)
         if (!bindingDone && getListView() != null) {
             Platform.runLater(() -> {
                 try {

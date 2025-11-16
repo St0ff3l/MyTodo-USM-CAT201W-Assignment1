@@ -1,16 +1,16 @@
 package com.mytodo;
 
 /**
- * 保存每个自定义列表的元数据：名称 + 图标路径
- * 图标路径形式类似："/com/mytodo/icons/user1.png"
+ * Stores metadata for each custom list: name + icon path
+ * Icon path format example: "/com/mytodo/icons/user1.png"
  */
 public class ListInfo {
 
     private String name;
-    private String iconPath; // 可以为 null
+    private String iconPath; // Can be null
 
     public ListInfo() {
-        // Jackson 或其它序列化需要无参构造
+        // Required no-arg constructor for Jackson or other serializers
     }
 
     public ListInfo(String name, String iconPath) {

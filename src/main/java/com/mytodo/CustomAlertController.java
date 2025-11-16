@@ -1,12 +1,12 @@
 package com.mytodo;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;       // 🌟 1. 新增 Import
-import javafx.scene.control.ButtonType;   // 🌟 2. 新增 Import
+import javafx.scene.control.Button;       // 1. Added Import
+import javafx.scene.control.ButtonType;   // 2. Added Import
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;             // 🌟 3. 新增 Import
+import javafx.stage.Stage;             // 3. Added Import
 import java.net.URL;
 
 public class CustomAlertController {
@@ -16,22 +16,22 @@ public class CustomAlertController {
     @FXML private Label contentLabel;
     @FXML private HBox separatorBox;
 
-    // 🌟 4. 为 FXML 中的新按钮添加 @FXML 引用
+    // 4. Add @FXML references for the new buttons inside FXML
     @FXML private Button okButton;
     @FXML private Button cancelButton;
 
-    // 🌟 5. 用于存储按钮点击结果 (默认为 Cancel)
+    // 5. Store the button click result (default = Cancel)
     private ButtonType result = ButtonType.CANCEL;
 
     /**
-     * FXML 加载后自动调用此方法
+     * Called automatically after FXML is loaded
      */
     @FXML
     public void initialize() {
 
-        // 1. 为这个弹窗(alertPane)加载 CSS
+        // 1. Load CSS for this alertPane
         try {
-            // 使用绝对路径加载你的 CSS 文件
+            // Load CSS using an absolute resource path
             URL cssUrl = getClass().getResource("/com/mytodo/Main.css");
 
             if (cssUrl != null) {
@@ -44,41 +44,41 @@ public class CustomAlertController {
             e.printStackTrace();
         }
 
-        // 🌟 6. 为我们的新按钮设置点击事件
+        // 6. Set click handlers for our new buttons
 
-        // "OK" 按钮
+        // "OK" button
         okButton.setOnAction(event -> {
-            this.result = ButtonType.OK; // 设置结果为 OK
+            this.result = ButtonType.OK; // Set result to OK
             closeDialog();
         });
 
-        // "Cancel" 按钮
+        // "Cancel" button
         cancelButton.setOnAction(event -> {
-            // 结果默认为 Cancel，所以这里也可以不设置
+            // Result is already defaulted to Cancel, so no need to set it
             // this.result = ButtonType.CANCEL;
             closeDialog();
         });
     }
 
     /**
-     * 🌟 7. 新增：手动关闭弹窗的方法
+     * 7. Method to manually close the dialog
      */
     private void closeDialog() {
-        // 获取当前按钮所在的 Stage (窗口) 并关闭它
+        // Get the current Stage (window) from the dialogPane and close it
         Stage stage = (Stage) alertPane.getScene().getWindow();
         stage.close();
     }
 
     /**
-     * 🌟 8. 新增：一个公共方法，让调用者(MainController)可以获取结果
+     * 8. Public method for MainController to retrieve the clicked result
      */
     public ButtonType getResult() {
         return this.result;
     }
 
     /**
-     * 设置弹窗的内容和标题
-     * (此方法保持不变)
+     * Set the alert header and content message
+     * (This method remains unchanged)
      */
     public void setMessage(String header, String content) {
         if (header != null && !header.isEmpty()) {
@@ -89,8 +89,8 @@ public class CustomAlertController {
             headerLabel.setVisible(false);
             separatorBox.setVisible(false);
             if (alertPane.getContent() != null) {
-                // 注意：FXML 的 VBox padding 现在是 20 20 20 20
-                // 你可能不再需要这行代码了
+                // Note: FXML VBox padding is now 20 20 20 20
+                // You may not need this line anymore
                 // alertPane.getContent().setStyle("-fx-padding: 20 20 10 20;");
             }
         }

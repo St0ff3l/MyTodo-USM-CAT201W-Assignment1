@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.net.URL;
 
-// 🌟 1. 类重命名
+// 1. Class renamed
 public class SuccessMessageDialogController {
 
     @FXML private DialogPane alertPane;
@@ -18,12 +18,12 @@ public class SuccessMessageDialogController {
     @FXML private Button okButton;
 
     /**
-     * FXML 加载后自动调用此方法
+     * This method is called automatically after FXML is loaded
      */
     @FXML
     public void initialize() {
 
-        // 1. 加载 CSS
+        // 1. Load CSS
         try {
             URL cssUrl = getClass().getResource("/com/mytodo/Main.css");
             if (cssUrl != null) {
@@ -36,12 +36,12 @@ public class SuccessMessageDialogController {
             e.printStackTrace();
         }
 
-        // 2. 为 "OK" 按钮设置点击事件
+        // 2. Set click handler for the "OK" button
         okButton.setOnAction(event -> closeDialog());
     }
 
     /**
-     * 手动关闭弹窗的方法
+     * Method to manually close the dialog
      */
     private void closeDialog() {
         Stage stage = (Stage) alertPane.getScene().getWindow();
@@ -49,7 +49,7 @@ public class SuccessMessageDialogController {
     }
 
     /**
-     * 设置成功弹窗的内容和标题
+     * Set the header and content for the success dialog
      */
     public void setSuccessMessage(String header, String content) {
         if (header != null && !header.isEmpty()) {

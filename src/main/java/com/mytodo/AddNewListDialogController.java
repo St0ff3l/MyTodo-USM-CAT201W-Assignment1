@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 新建列表对话框控制器：
- *  - 输入列表名
- *  - 选择一个图标（圆形按钮）
+ * Add New List Dialog Controller:
+ *  - Input list name
+ *  - Select an icon (circle buttons)
  */
 public class AddNewListDialogController {
 
@@ -21,7 +21,7 @@ public class AddNewListDialogController {
     @FXML private Button okButton;
     @FXML private Button cancelButton;
 
-    // 五个图标按钮
+    // Five icon buttons
     @FXML private Button iconBtn1;
     @FXML private Button iconBtn2;
     @FXML private Button iconBtn3;
@@ -31,20 +31,20 @@ public class AddNewListDialogController {
     private boolean okClicked = false;
     private String newListName = null;
 
-    // 默认选中的图标路径（资源路径）
+    // Default selected icon path (resource path)
     private String selectedIconPath = "/com/mytodo/icons/user1.png";
 
     @FXML
     private void initialize() {
-        // 回车 -> OK
+        // Enter key -> OK
         listNameField.setOnAction(event -> handleOk());
 
-        // 设置图标按钮行为
+        // Setup icon button behaviors
         setupIconButtons();
     }
 
     private void setupIconButtons() {
-        // 一次性把 5 个按钮放进列表
+        // Put all five buttons into a list at once
         List<Button> buttons = Arrays.asList(
                 iconBtn1, iconBtn2, iconBtn3, iconBtn4, iconBtn5
         );
@@ -63,16 +63,18 @@ public class AddNewListDialogController {
 
             btn.setOnMouseClicked(e -> {
                 selectedIconPath = path;
-                // 清掉所有按钮的 selected 样式
+
+                // Remove selected style from all buttons
                 buttons.forEach(b -> b.getStyleClass().remove("selected"));
-                // 当前按钮加上 selected，给 CSS 用
+
+                // Add selected style to the current button for CSS
                 if (!btn.getStyleClass().contains("selected")) {
                     btn.getStyleClass().add("selected");
                 }
             });
         }
 
-        // 默认第一个高亮
+        // Highlight the first icon by default
         if (!iconBtn1.getStyleClass().contains("selected")) {
             iconBtn1.getStyleClass().add("selected");
         }
@@ -101,7 +103,7 @@ public class AddNewListDialogController {
         stage.close();
     }
 
-    // --- 给 MainController 调用的接口 ---
+    // --- Methods for MainController to call ---
 
     public boolean isOkClicked() {
         return okClicked;

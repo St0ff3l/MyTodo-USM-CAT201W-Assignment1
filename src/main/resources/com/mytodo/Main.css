@@ -1,21 +1,21 @@
 /* =========================================
-   1. 🎨 全局样式 (Global Styles)
+   1. Global Styles
    ========================================= */
 
-/* 1.1 根节点 / 全局背景 (Root / Global Background) */
+/* 1.1 Root / Global Background */
 .root {
-    /* 字体 */
+    /* Font */
     -fx-font-family: "SF Pro Text", "Segoe UI", "Microsoft YaHei";
-    /* macOS-style 渐变主题 (v12 pixel perfect) */
+    /* macOS-style gradient theme (v12 pixel perfect) */
     -fx-background-color: linear-gradient(to bottom right, #f6f7fb, #eaf1fe);
-    /* 🍋 全局背景图片层 (后加入，覆盖渐变) */
+    /* Global background image layer (added later, overrides gradient) */
     -fx-background-image: url("backgrounds/3eb6c4e4-092d-3213-9987-c426bb985e3a!nd_dft_wgth_jpg_3.JPEG ");
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 
-/* 1.2 额外的柔和蓝调渐变 (可能用于覆盖或特定区域) */
+/* 1.2 Extra soft blue gradient (for overlays or specific regions) */
 .gradient-theme {
     -fx-background-color: linear-gradient(
             to bottom right,
@@ -27,10 +27,10 @@
 
 
 /* =========================================
-   2. 🔍 Spotlight 风格搜索栏 (Search Bar)
+   2. Spotlight-style Search Bar
    ========================================= */
 
-/* 2.1 搜索容器 (Search Container) */
+/* 2.1 Search Container */
 .search-container {
     -fx-min-height: 42;
     -fx-pref-height: 42;
@@ -45,7 +45,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 1);
 }
 
-/* 2.2 放大镜图标 (ImageView within Search Container) */
+/* 2.2 Magnifying glass icon (ImageView within Search Container) */
 .search-container ImageView {
     -fx-fit-height: 16px;
     -fx-fit-width: 16px;
@@ -53,7 +53,7 @@
     -fx-translate-y: 0.2;
 }
 
-/* 2.3 搜索输入框 (TextField) */
+/* 2.3 Search TextField */
 .search-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -65,7 +65,7 @@
     -fx-pref-height: 30;
 }
 
-/* 2.4 右侧搜索按钮 (Search Button) - 旧版或备用 */
+/* 2.4 Right search button (legacy / optional) */
 .search-right-btn {
     -fx-min-height: 30;
     -fx-pref-height: 30;
@@ -85,7 +85,7 @@
     -fx-background-color: linear-gradient(to bottom, #e2e2e5, #d4d4d7);
 }
 
-/* 2.5 清空按钮 (Clear Button) */
+/* 2.5 Clear Button */
 .search-clear-btn {
     -fx-background-color: transparent;
     -fx-text-fill: #8e8e93;
@@ -101,16 +101,16 @@
 
 
 /* =========================================
-   3. 📋 ListView / 任务卡片样式 (Task Card Styles)
+   3. ListView / Task Card Styles
    ========================================= */
 
-/* 3.1 列表视图 (ListView) */
+/* 3.1 ListView */
 .list-view {
     -fx-background-color: transparent;
     -fx-padding: 12;
 }
 
-/* 3.2 列表单元格 / 任务卡片 (ListCell) */
+/* 3.2 ListCell / Task Card */
 .list-cell {
     -fx-background-color: white;
     -fx-background-radius: 18;
@@ -122,27 +122,27 @@
     -fx-alignment: CENTER_LEFT;
 }
 
-/* 3.3 单元格悬停 (Hover) */
+/* 3.3 Hover */
 .list-cell:hover {
     -fx-background-color: #f8faff;
 }
 
-/* 3.4 单元格选中 (Selected) */
+/* 3.4 Selected */
 .list-cell:filled:selected {
     -fx-background-color: linear-gradient(to right, rgba(90,124,255,0.15), rgba(130,160,255,0.20));
 }
 
 
 /* =========================================
-   4. ✅ 圆形复选框 (Checkbox)
+   4. Circular CheckBox
    ========================================= */
 
-/* 4.1 CheckBox 基础样式 */
+/* 4.1 Base CheckBox */
 .check-box {
     -fx-background-color: transparent;
 }
 
-/* 4.2 CheckBox 外框 (Box) - 圆形样式 */
+/* 4.2 CheckBox box (outer circle) */
 .check-box > .box {
     -fx-background-color: white;
     -fx-border-color: #d0d3da;
@@ -155,54 +155,54 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0, 0, 1);
 }
 
-/* 4.3 外框悬停效果 */
+/* 4.3 Box hover state */
 .check-box:hover > .box {
     -fx-border-color: #9aa0a6;
 }
 
-/* 4.4 选中时外框和背景颜色 */
+/* 4.4 Selected box background/border */
 .check-box:selected > .box {
     -fx-background-color: #3a7afe;
     -fx-border-color: #3a7afe;
 }
 
-/* 4.5 隐藏默认黑色勾 (Fix: remove default black check mark) */
+/* 4.5 Hide default black check mark */
 .check-box > .mark {
     -fx-background-color: transparent;
-    -fx-shape: "";   /* 隐藏原生黑色勾 */
+    -fx-shape: "";   /* Hide default black check mark */
 }
 
-/* 4.6 自定义白色圆润勾 (Custom Apple-style Rounded Checkmark) */
+/* 4.6 Custom white rounded checkmark (Apple-style) */
 .check-box:selected > .mark {
-    /* 圆润弯曲路径 —— 仿 SF Symbols “checkmark.circle.fill” */
+    /* Curved path — inspired by SF Symbols “checkmark.circle.fill” */
     -fx-shape: "M 5 9 C 5 9 7 11 7.8 11 C 8.6 11 12 7 12 7";
-    -fx-stroke: white;              /* 纯白 */
-    -fx-stroke-width: 2.0;          /* 等粗 */
-    -fx-stroke-line-cap: round;     /* 端点圆润 */
-    -fx-stroke-line-join: round;     /* 拐角也圆润（避免粗线叠加） */
+    -fx-stroke: white;              /* pure white */
+    -fx-stroke-width: 2.0;          /* uniform width */
+    -fx-stroke-line-cap: round;     /* rounded endpoints */
+    -fx-stroke-line-join: round;    /* rounded corners to avoid line overlaps */
     -fx-background-color: transparent;
 }
 
 
 /* =========================================
-   5. ➕ 快速添加卡片 (Quick Add Card)
+   5. Quick Add Card
    ========================================= */
 
-/* 5.1 快速添加容器 */
+/* 5.1 Quick-add container */
 .quick-add-container {
     -fx-background-color: white;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
     -fx-padding: 10;
     -fx-spacing: 10;
-    /* 强烈的蓝色阴影效果 */
+    /* Strong blue shadow effect */
     -fx-effect: dropshadow(gaussian, rgba(110,150,255,0.28), 16, 0.18, 0, 2),
     dropshadow(gaussian, rgba(80,120,255,0.12), 8, 0.15, 0, 1);
     -fx-border-color: rgba(120, 160, 255, 0.55);
     -fx-border-width: 1;
 }
 
-/* 5.2 快速添加输入框 (TextField) */
+/* 5.2 Quick-add TextField */
 .quick-add-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -212,12 +212,12 @@
 
 
 /* =========================================
-   6. 🧭 左侧导航栏 (Sidebar Navigation)
+   6. Sidebar Navigation
    ========================================= */
 
-/* 6.1 侧边栏面板 (#sidebar) */
+/* 6.1 Sidebar panel (#sidebar) */
 #sidebar {
-    /* 磨砂玻璃效果 */
+    /* Frosted glass effect */
     -fx-background-color: rgba(255,255,255,0.88);
     -fx-background-radius: 16;
     -fx-border-color: rgba(255,255,255,0.70);
@@ -227,7 +227,7 @@
     -fx-padding: 10 0;
 }
 
-/* 6.2 导航项按钮 (Nav Item Button) - 基础样式 */
+/* 6.2 Navigation item button — base style */
 .button.nav-item {
     -fx-background-color: transparent;
     -fx-text-fill: #202124;
@@ -238,43 +238,43 @@
     -fx-border-color: transparent;
 }
 
-/* 6.3 导航项按钮 - 悬停效果 */
+/* 6.3 Navigation item — hover */
 .button.nav-item:hover {
     -fx-background-color: rgba(0,0,0,0.05);
 }
 
-/* 6.4 导航项按钮 - 选中状态 */
+/* 6.4 Navigation item — selected */
 .button.nav-item.selected {
-    /* 蓝色渐变背景 */
+    /* Blue gradient background */
     -fx-background-color: linear-gradient(to right, rgba(58,122,254,0.18), rgba(58,122,254,0.25));
     -fx-text-fill: #1b56ff;
-    /* 左侧蓝色边框 */
+    /* Left blue border */
     -fx-border-width: 0 0 0 4;
     -fx-border-color: #3a7afe;
     -fx-border-radius: 10;
 }
-/* 让 nav-item 里的 Label 用深灰色文字 */
+/* Labels inside nav-item are dark gray by default */
 .button.nav-item .label {
     -fx-text-fill: #202124;
 }
 
-/* 选中的 nav-item（蓝条高亮）里的 Label 变成蓝色文字 */
+/* Labels in selected nav-item (blue highlight) become blue */
 .button.nav-item.selected .label {
     -fx-text-fill: #1b56ff;
 }
 
 
 /* =========================================
-   7. ⚙️ 菜单栏及下拉菜单 (Menu Bar & Context Menu)
+   7. Menu Bar & Context Menu
    ========================================= */
 
-/* 7.1 菜单栏基础 (不常用/可能被覆盖) */
+/* 7.1 Basic menu bar (less used / might be overridden) */
 .menu-bar {
     -fx-background-color: #9CB5D1;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 1);
 }
 
-/* 7.2 🍎 菜单栏圆角风格 (Rounded Menu Bar) */
+/* 7.2 Rounded menu bar style */
 .menu-bar-rounded {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -283,7 +283,7 @@
     -fx-font-weight: 500;
 }
 
-/* 7.3 🍏 顶部菜单栏背景区分（浅灰底）- 覆盖上方透明背景 */
+/* 7.3 Top menu bar light-gray background (overrides transparent) */
 .menu-bar-rounded {
     -fx-background-color: #E1E1E6;
     -fx-background-radius: 12;
@@ -291,7 +291,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 2);
 }
 
-/* 7.4 菜单项 (Menu within Menu Bar) */
+/* 7.4 Menu entries inside the menu bar */
 .menu-bar-rounded .menu {
     -fx-text-fill: #1d1d1f;
     -fx-background-color: transparent;
@@ -300,20 +300,20 @@
     -fx-min-width: 40;
 }
 
-/* 7.5 菜单项悬停 (Menu Hover) */
+/* 7.5 Hovered menu entries */
 .menu-bar-rounded .menu:hover {
     -fx-background-color: rgba(0,0,0,0.05);
     -fx-background-radius: 20;
 }
 
-/* 7.6 菜单项弹出时 (Menu Showing) */
+/* 7.6 Menu entry while showing popup */
 .menu-bar-rounded .menu:showing {
     -fx-background-color: #E1E1E6;
     -fx-background-radius: 12;
     -fx-padding: 6 14;
 }
 
-/* 7.7 下拉菜单面板 (Context Menu / MenuPopup) */
+/* 7.7 Context menu panel (MenuPopup) */
 .context-menu {
     -fx-background-color: white;
     -fx-background-radius: 4;
@@ -324,7 +324,7 @@
     -fx-border-radius: 4;
 }
 
-/* 7.8 下拉菜单项 (Menu Item) */
+/* 7.8 Menu item in context menu */
 .context-menu .menu-item {
     -fx-background-color: transparent;
     -fx-text-fill: #1d1d1f;
@@ -335,7 +335,7 @@
     -fx-border-color: transparent;
 }
 
-/* 7.9 下拉菜单项悬停/焦点 (Menu Item Hover/Focus) */
+/* 7.9 Hovered / focused menu item */
 .context-menu .menu-item:focused,
 .context-menu .menu-item:hover {
     -fx-background-color: rgba(58, 122, 254, 0.1);
@@ -343,13 +343,13 @@
     -fx-border-color: transparent;
 }
 
-/* 7.10 下拉菜单项文本 (Label) */
+/* 7.10 Menu item text label */
 .context-menu .menu-item .label {
     -fx-text-fill: #1d1d1f;
     -fx-background-color: transparent;
 }
 
-/* 7.11 下拉菜单项悬停/焦点时文本颜色 (Label Hover/Focus) */
+/* 7.11 Menu item text when hovered / focused */
 .context-menu .menu-item:focused .label,
 .context-menu .menu-item:hover .label {
     -fx-text-fill: #1d1d1f;
@@ -357,16 +357,16 @@
 
 
 /* =========================================
-   8. 🔘 按钮样式重构 (Button Styles)
+   8. Button Styles
    ========================================= */
 
-/* 8.1 搜索按钮 (Search Button) - 用于搜索框旁/主操作按钮 */
+/* 8.1 Search button — used next to search bar / for primary action */
 .btn-search {
     -fx-min-height: 42;
     -fx-pref-height: 42;
     -fx-max-height: 42;
     -fx-background-color: linear-gradient(to bottom, #ffffff, #f6f6f6);
-    -fx-background-radius: 999; /* 完整胶囊 */
+    -fx-background-radius: 999; /* Fully pill-shaped */
     -fx-background-insets: 0;
     -fx-border-color: transparent;
     -fx-border-radius: 999;
@@ -377,40 +377,40 @@
     -fx-cursor: hand;
 }
 
-/* 8.1.1 搜索按钮悬停 */
+/* 8.1.1 Search button hover */
 .btn-search:hover {
     -fx-background-color: linear-gradient(to bottom, #ededf0, #e1e2e6);
 }
 
-/* 8.1.2 搜索按钮按下 */
+/* 8.1.2 Search button pressed */
 .btn-search:pressed {
     -fx-background-color: linear-gradient(to bottom, #dcdde1, #cfd0d4);
 }
 
-/* 8.2 统一灰色按钮 (Gray Button) - 基础/次要操作 */
+/* 8.2 Unified gray button — base / secondary actions */
 .btn-gray, .btn-add, .btn-edit, .btn-delete, .btn-add-detail, .btn-ok, .btn-cancel{
-    /* 统一样式：圆角、字体、内边距 */
+    /* Unified look: rounded corners, font, padding */
     -fx-background-radius: 14;
     -fx-padding: 6 14;
     -fx-font-weight: 500;
     -fx-font-size: 13.5px;
 
-    /* 统一的灰色渐变 */
+    /* Unified gray gradient */
     -fx-background-color: linear-gradient(to bottom, #ebebed, #dfe0e3);
     -fx-text-fill: #1d1d1f;
 }
 
-/* 8.2.1 灰色按钮悬停 */
+/* 8.2.1 Gray button hover */
 .btn-gray:hover {
     -fx-background-color: linear-gradient(to bottom, #d4d4d7, #c5c5c9);
 }
 
 
 /* =========================================
-   9. 💬 弹窗/对话框 (Dialog Styles)
+   9. Dialog Styles
    ========================================= */
 
-/* 9.1 对话框整体面板 (Dialog Panel) */
+/* 9.1 Dialog panel */
 .mac-style-dialog {
     -fx-background-radius: 16;
     -fx-background-color: white;
@@ -418,14 +418,14 @@
     -fx-font-family: "SF Pro Text", "Segoe UI", "Microsoft YaHei";
 }
 
-/* 9.2 内部组件背景 (确保纯白) */
+/* 9.2 Internal component backgrounds (keep pure white) */
 .mac-style-dialog .header-panel,
 .mac-style-dialog .content,
 .mac-style-dialog .button-bar {
     -fx-background-color: white;
 }
 
-/* 9.3 头部文本 (Header Text) */
+/* 9.3 Header text */
 .alert-header-text {
     -fx-text-fill: #1d1d1f;
     -fx-font-size: 16px;
@@ -433,31 +433,35 @@
     -fx-letter-spacing: 0.5px;
 }
 
-/* 9.4 分割线 (Separator HBox) */
+/* 9.4 Separator line (HBox) */
 .mac-style-dialog .HBox#separatorBox {
-    /* 颜色已从 #cfe0ff (浅蓝色) 更改为 #d4e0f0 (稍深的浅蓝色) */
+    /* Color changed from #cfe0ff (light blue) to #d4e0f0 (slightly deeper light blue) */
     -fx-background-color: #d4e0f0;
     -fx-opacity: 1;
 }
+
+
 /* =========================================
-   10. 📜 滚动条 (Scroll Bar)
+   10. Scroll Bar
    ========================================= */
 
-/* 10.1 垂直滚动条滑块 (Vertical Scroll Bar Thumb) */
+/* 10.1 Vertical scroll-bar thumb */
 .list-view .scroll-bar:vertical .thumb {
     -fx-background-color: rgba(0,0,0,0.25);
     -fx-background-radius: 5;
 }
 
-/* 10.2 垂直滚动条轨道 (Vertical Scroll Bar Track) */
+/* 10.2 Vertical scroll-bar track */
 .list-view .scroll-bar:vertical .track {
     -fx-background-color: transparent;
 }
+
+
 /* =========================================
-   11. 💬 任务详情对话框 (Task Detail Dialog) [已修复]
+   11. Task Detail Dialog [Fixed]
    ========================================= */
 
-/* 11.2 [无变化] - 圆角控件 (TextField) */
+/* 11.2 [Unchanged] — Rounded TextField */
 .mac-style-dialog .text-field {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
@@ -468,7 +472,7 @@
     -fx-border-radius: 14;
 }
 
-/* 11.3 [已修复] - 描述框 (TextArea) */
+/* 11.3 [Fixed] — TextArea */
 .mac-style-dialog .text-area {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
@@ -479,8 +483,8 @@
     -fx-border-radius: 14;
     -fx-padding: 8px 10px;
 }
-/* * [关键修复]
- * 强制 TextArea 内部的内容区域 (content) 也是灰色
+/* * [Key fix]
+ * Force the TextArea inner content region to be gray as well
  */
 .mac-style-dialog .text-area .content {
     -fx-background-color: #f0f0f0;
@@ -493,16 +497,16 @@
 }
 
 
-/* 11.4 [已修改] - 下拉框 (ChoiceBox) - 改回圆角 */
+/* 11.4 [Updated] — ChoiceBox (rounded corners) */
 .mac-style-dialog .choice-box {
     -fx-background-color: #f0f0f0;
     -fx-border-color: #d0d3da;
     -fx-border-width: 1px;
     -fx-font-size: 13.5px;
     -fx-text-fill: #1d1d1f;
-    -fx-background-radius: 14; /* <-- 修改：改回圆角 */
-    -fx-border-radius: 14;     /* <-- 修改：改回圆角 */
-    -fx-padding: 4 8 4 10; /* 保持左内边距 */
+    -fx-background-radius: 14; /* <-- back to rounded */
+    -fx-border-radius: 14;     /* <-- back to rounded */
+    -fx-padding: 4 8 4 10;     /* keep left padding */
 }
 .mac-style-dialog .choice-box > .open-button {
     -fx-background-color: #f0f0f0;
@@ -512,12 +516,12 @@
     -fx-background-color: #555;
 }
 
-/* 11.5 [无变化] - 日期选择器 (DatePicker) - 保持方角 */
+/* 11.5 [Unchanged] — DatePicker (keep square corners) */
 .mac-style-dialog .date-picker {
     -fx-border-color: #d0d3da;
     -fx-background-color: #f0f0f0;
-    -fx-background-radius: 0; /* 保持方角 */
-    -fx-border-radius: 0;     /* 保持方角 */
+    -fx-background-radius: 0; /* keep square */
+    -fx-border-radius: 0;     /* keep square */
 }
 .mac-style-dialog .date-picker .text-field {
     -fx-background-color: #f0f0f0;
@@ -530,7 +534,7 @@
     -fx-padding: 0 10 0 0;
 }
 
-/* 11.6 [无变化] - Spinner (时间选择器) - 保持圆角 */
+/* 11.6 [Unchanged] — Spinner (time picker, rounded) */
 .mac-style-dialog .spinner {
     -fx-border-color: #d0d3da;
     -fx-border-width: 1px;
@@ -562,20 +566,20 @@
 }
 
 
-/* 11.7 [已修改] - 控件焦点效果 (分组更新) */
+/* 11.7 [Updated] — Focus styles (grouped) */
 
-/* 焦点效果 - 圆角控件 */
+/* Focus effect — rounded components */
 .mac-style-dialog .text-field:focused,
 .mac-style-dialog .text-area:focused,
 .mac-style-dialog .spinner:focused,
-.mac-style-dialog .choice-box:focused { /* <-- ChoiceBox 移回这里 */
+.mac-style-dialog .choice-box:focused { /* <-- ChoiceBox moved back here */
     -fx-border-color: #3a7afe;
     -fx-effect: dropshadow(gaussian, rgba(58,122,254,0.3), 5, 0, 0, 0);
     -fx-background-radius: 14;
     -fx-border-radius: 14;
 }
 
-/* 焦点效果 - 方角控件 (只剩 DatePicker) */
+/* Focus effect — square components (DatePicker only) */
 .mac-style-dialog .date-picker:focused,
 .mac-style-dialog .date-picker:focused .text-field {
     -fx-border-color: #3a7afe;
@@ -585,12 +589,12 @@
 }
 
 
-/* 11.8 (无变化) - 按钮样式 */
+/* 11.8 (Unchanged) — Button styles */
 /* =====================
-   Edit / Delete 按钮主题色
+   Edit / Delete button theme colors
    ===================== */
 
-/* Edit：柔和蓝 */
+/* Edit: soft blue */
 .button.flat-ghost.edit {
     -fx-background-color: rgba(80,140,255,0.18);
     -fx-text-fill: #1b56ff;
@@ -601,7 +605,7 @@
     -fx-background-color: rgba(80,140,255,0.28);
 }
 
-/* Delete：柔和红 */
+/* Delete: soft red */
 .button.flat-ghost.delete {
     -fx-background-color: rgba(255,90,90,0.18);
     -fx-text-fill: #d32f2f;
@@ -613,7 +617,7 @@
 }
 
 
-/* 11.9 (无变化) - 标签 (Labels) */
+/* 11.9 (Unchanged) — Labels */
 .mac-style-dialog .label {
     -fx-font-size: 13px;
     -fx-text-fill: #333;
@@ -621,8 +625,8 @@
     -fx-padding: 5 0 2 2;
 }
 
-/* 11.10===============================
-   圆形图标选择按钮（新建列表弹窗用）
+/* 11.10 ===========================
+   Circular icon choice buttons (New List dialog)
    ==================================== */
 .icon-choice-btn {
     -fx-min-width: 42;
@@ -640,94 +644,96 @@
     -fx-background-color: #E5E7EB;
 }
 
-/* 被选中的图标：浅蓝底 + 蓝色描边 */
+/* Selected icon: light blue background + blue border */
 .icon-choice-btn.selected {
     -fx-background-color: #D8E2FF;
     -fx-border-color: #3A7AFE;
     -fx-border-width: 2;
     -fx-border-radius: 21;
 }
-/* 侧边栏右侧数量数字 */
+
+/* Right-side count in sidebar */
 .list-count {
-    -fx-text-fill: #202124;  /* 纯黑偏深灰，和左侧文字风格一致 */
+    -fx-text-fill: #202124;  /* deep gray, matching left-side text */
     -fx-font-size: 11px;
     -fx-opacity: 0.95;
 }
 
-/* 可选：标题文字，保证也是黑色 */
+/* Optional: nav title label, ensure it is also dark */
 .nav-label {
     -fx-text-fill: #202124;
 }
+
 /* ============================
-   分类数字颜色（仅固定分类）
+   Category count colors (fixed categories only)
    ============================ */
 
-/* Today（蓝色） */
+/* Today (blue) */
 .nav-count.today-count {
     -fx-text-fill: #2D6AE0;
 }
 
-/* Important（红色） */
+/* Important (red) */
 .nav-count.important-count {
     -fx-text-fill: #D93025;
 }
 
-/* All（灰色） */
+/* All (gray) */
 .nav-count.all-count {
     -fx-text-fill: #555555;
 }
 
-/* Pending（橙色） */
+/* Pending (orange) */
 .nav-count.pending-count {
     -fx-text-fill: #FF8C00;
 }
 
-/* Overdue（黄色） */
+/* Overdue (yellow) */
 .nav-count.overdue-count {
     -fx-text-fill: #E6B800;
 }
 
-/* Completed（绿色） */
+/* Completed (green) */
 .nav-count.completed-count {
     -fx-text-fill: #2E8B57;
 }
 
-/* 自定义列表：数字始终黑色 */
+/* Custom lists: numbers always black */
 .nav-count.userlist-count {
     -fx-text-fill: #000000;
 }
 
 /* ============================================
-   🍏 保留 thumb，隐藏一切其他滚动条 UI
+   Keep thumb visible, hide all other scrollbar UI
    ============================================ */
 
-/* 1. 隐藏整个滚动条背景（只有保留 thumb） */
+/* 1. Hide entire scroll-bar background (keep only thumb) */
 .scroll-bar {
     -fx-padding: 0;
     -fx-background-color: transparent;
 }
 
-/* 2. 隐藏上下箭头按钮 */
+/* 2. Hide increment/decrement buttons */
 .scroll-bar .increment-button,
 .scroll-bar .decrement-button {
     -fx-padding: 0;
     -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-opacity: 0; /* 完全隐藏 */
+    -fx-opacity: 0; /* fully hidden */
 }
 
-/* 3. 隐藏箭头图标 */
+/* 3. Hide arrow icons */
 .scroll-bar .increment-arrow,
 .scroll-bar .decrement-arrow {
-    -fx-opacity: 0; /* 完全隐藏 */
+    -fx-opacity: 0; /* fully hidden */
 }
 
-/* 4. 隐藏轨道（只让滑块悬浮） */
+/* 4. Hide track (thumb appears “floating”) */
 .scroll-bar .track {
     -fx-background-color: transparent;
 }
 
-/* 5. 保留 thumb（滑块）的默认样式，不修改它） */
+/* 5. Keep thumb’s default style (do not modify it) */
 .scroll-bar .thumb {
     -fx-background-insets: 0;
 }

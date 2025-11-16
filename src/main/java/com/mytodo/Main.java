@@ -16,7 +16,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 650);
 
-        // ===== 加载新增的渐变主题样式（Main.css） =====
+        // ===== Load the new gradient theme stylesheet (Main.css) =====
         scene.getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
 
         // Window title
@@ -24,7 +24,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // Ensure data saved on exit
+        // Ensure data is saved on exit
         MainController controller = loader.getController();
         stage.setOnCloseRequest(e -> controller.saveAndExit());
     }

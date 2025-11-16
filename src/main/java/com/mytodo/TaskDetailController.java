@@ -21,7 +21,7 @@ public class TaskDetailController {
     @FXML private Button okButton;
     @FXML private Button cancelButton;
 
-    // 🌟 listName selector
+    // listName selector
     @FXML private ChoiceBox<String> listSelectorBox;
 
     private Task resultTask;
@@ -42,17 +42,17 @@ public class TaskDetailController {
     }
 
     /**
-     * 🌟 新版 loadData —— 接受 ListInfo
+     * New version of loadData —— accepts ListInfo
      */
     public void loadData(Task task, ObservableList<ListInfo> listInfos) {
 
         this.resultTask = task;
 
         // -----------------------------
-        // 1) ListInfo → String 名称列表
+        // 1) Convert ListInfo → String (list names)
         // -----------------------------
         ObservableList<String> choiceList = FXCollections.observableArrayList();
-        choiceList.add(UNLISTED_PLACEHOLDER); // 默认项
+        choiceList.add(UNLISTED_PLACEHOLDER); // default choice
 
         for (ListInfo li : listInfos) {
             choiceList.add(li.getName());
@@ -61,7 +61,7 @@ public class TaskDetailController {
         listSelectorBox.setItems(choiceList);
 
         // -----------------------------
-        // 2) 如果是编辑任务，填入数据
+        // 2) If editing an existing task, fill form fields
         // -----------------------------
         if (task != null) {
             titleField.setText(task.getTitle());
@@ -79,7 +79,7 @@ public class TaskDetailController {
             }
 
         } else {
-            // 新任务
+            // New task
             listSelectorBox.setValue(UNLISTED_PLACEHOLDER);
             dueTimeSpinner.setValueFactory(createTimeValueFactory(DEFAULT_END_OF_DAY_TIME));
         }
@@ -128,6 +128,9 @@ public class TaskDetailController {
         return resultTask;
     }
 
+    /**
+     * Create a 5-minute step Spinner for LocalTime
+     */
     private SpinnerValueFactory<LocalTime> createTimeValueFactory(LocalTime initialTime) {
         return new SpinnerValueFactory<>() {
             {

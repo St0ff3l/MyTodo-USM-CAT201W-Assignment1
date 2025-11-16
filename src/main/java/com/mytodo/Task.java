@@ -3,7 +3,7 @@ package com.mytodo;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-// 🌟 [已移除] 移除了 java.util.ArrayList 和 java.util.List
+// [Removed] Removed java.util.ArrayList and java.util.List
 
 public class Task {
     private final StringProperty title = new SimpleStringProperty();
@@ -14,31 +14,31 @@ public class Task {
     private final BooleanProperty completed = new SimpleBooleanProperty(false);
     private final BooleanProperty important = new SimpleBooleanProperty(false);
 
-    // 🌟 1. [已修改] "tags" (List<String>) 已被替换为 "listName" (String)
+    // 1. [Updated] "tags" (List<String>) has been replaced by "listName" (String)
     private String listName;
 
 
-    // (无参构造函数)
+    // (No-argument constructor)
     public Task() {
         setTitle("");
         setDescription("");
         setPriority("Normal");
-        // 🌟 2. [已修改] 默认值为空 (null)
+        // 2. [Updated] Default value is null
         this.listName = null;
     }
 
-    // (带参构造函数)
+    // (Full constructor)
     public Task(String title, String desc, LocalDate due, LocalTime time, String priority) {
         setTitle(title);
         setDescription(desc);
         setDueDate(due);
         setTime(time);
         setPriority(priority);
-        // 🌟 3. [已修改] 默认值为空 (null)
+        // 3. [Updated] Default value is null
         this.listName = null;
     }
 
-    // --- Getters / Setters / Properties (保持不变) ---
+    // --- Getters / Setters / Properties (unchanged) ---
     public String getTitle() { return title.get(); }
     public void setTitle(String v) { title.set(v); }
     public StringProperty titleProperty() { return title; }
@@ -67,8 +67,8 @@ public class Task {
     public void setImportant(boolean v) { important.set(v); }
     public BooleanProperty importantProperty() { return important; }
 
-    // 🌟 4. [已修改] 移除了 getTags/setTags
-    // 替换为 getListName/setListName
+    // 4. [Updated] Removed getTags/setTags
+    // Replaced with getListName/setListName
 
     public String getListName() {
         return listName;

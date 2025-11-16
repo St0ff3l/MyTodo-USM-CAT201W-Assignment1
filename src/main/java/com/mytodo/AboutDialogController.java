@@ -21,7 +21,7 @@ public class AboutDialogController {
     @FXML private HBox separatorBox;
     @FXML private Button okButton;
 
-    // 🌟 新增静态方法，供 MainController 调用
+    // New static method for MainController to call
     public static void showAboutDialog(Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(AboutDialogController.class.getResource("/com/mytodo/AboutDialogView.fxml"));

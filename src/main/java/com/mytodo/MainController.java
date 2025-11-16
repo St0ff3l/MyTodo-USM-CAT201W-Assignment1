@@ -1,10 +1,10 @@
 package com.mytodo;
 
 // ---------------------------------------------------------------------
-// 导入 (Imports)
+// Imports
 // ---------------------------------------------------------------------
 
-// JavaFX 核心
+// JavaFX core
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
 
-// Java 标准库
+// Java Standard Library
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,19 +34,19 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// 本项目特定类
+// Project-specific classes
 import com.mytodo.util.JsonDataManager;
 import com.mytodo.SuccessMessageDialogController;
 import com.mytodo.AddNewListDialogController;
 
 
 /**
- * 主界面的控制器 (MainController)。
- * 负责处理所有用户交互、数据管理和UI更新。
+ * Main screen controller (MainController).
+ * Responsible for handling all user interactions, data management, and UI updates.
  */
 public class MainController {
 
-    // ==== FXML 绑定 ====
+    // ==== FXML bindings ====
     @FXML private VBox root;
     @FXML private VBox sidebar;
     @FXML private Button btnToday, btnImportant, btnAll, btnFinished, btnPending, btnOverdue;
@@ -61,7 +61,7 @@ public class MainController {
     @FXML private Button quickAddBtn;
     @FXML private Button detailAddBtn;
 
-    // 顶部分类数字 Label
+    // Top category number labels
     private Label todayCountLabel;
     private Label importantCountLabel;
     private Label allCountLabel;
@@ -70,7 +70,7 @@ public class MainController {
     private Label completedCountLabel;
 
     private final ObservableList<Task> masterTasks = FXCollections.observableArrayList();
-    // 保存所有自定义列表（名称 + 图标路径）
+    // Store all custom lists (name + icon path)
     private final ObservableList<ListInfo> masterLists = FXCollections.observableArrayList();
     private final FilteredList<Task> filteredTasks = new FilteredList<>(masterTasks, t -> true);
     private String currentFilterType = "ALL";
@@ -84,15 +84,15 @@ public class MainController {
 
 
     // =========================================================================
-    // 4. 初始化
+    // 4. Initialization
     // =========================================================================
 
     @FXML
     private void initialize() {
         System.out.println("[DEBUG] MainController initializing...");
-        // 图标管理（如果你之前有）
+        // Icon management (if you had it before)
 
-        // 先加载列表，再加载任务
+        // Load lists first, then load tasks
         loadLists();
         try {
             loadTasks();
@@ -102,33 +102,33 @@ public class MainController {
             ex.printStackTrace();
         }
 
-        // 保证幽灵占位符存在
+        // Ensure the ghost spacer item exists
         ensureSpacerExists();
 
-        // ListView 绑定
+        // ListView binding
         taskList.setItems(filteredTasks);
         taskList.setCellFactory(list -> new TaskListCell(this));
         VBox.setVgrow(taskList, Priority.ALWAYS);
         HBox.setHgrow(taskList, Priority.ALWAYS);
 
-        // 顶部分类按钮：包上“图标 + 文本 + 右侧数字”
+        // Wrap top category buttons as "icon + text + right-side number"
         setupFixedCategoryButtons();
 
-        // 绑定各种事件
+        // Bind various events
         bindActionEvents();
 
-        // 更新列表区域 + 统计数字
+        // Update list area + category statistics
         updateFixedCategoryCounts();
         updateListSidebar();
 
-        // 默认选中 All
+        // Select "All" by default
         setNavFilter("ALL", btnAll);
 
         System.out.println("[DEBUG] Initialization complete.");
     }
 
     /**
-     * 顶部 6 个分类按钮，统一改成：
+     * Top 6 category buttons, unified into:
      * [icon] [title] ....... [count]
      */
     private void setupFixedCategoryButtons() {
@@ -141,14 +141,14 @@ public class MainController {
     }
 
     /**
-     * 把一个 Button 变成：
+     * Transform one Button into:
      *  [icon] [title] (spacer) [countLabel]
      */
     private Label buildNavButtonWithCount(Button btn, String title) {
         if (btn == null) return null;
 
-        Node icon = btn.getGraphic();   // FXML 里已经放好的 ImageView
-        btn.setText("");                // 不用 Button 本身的文字
+        Node icon = btn.getGraphic();   // ImageView already put in FXML
+        btn.setText("");                // Do not use the Button's own text
 
         HBox row = new HBox(8);
         row.setAlignment(Pos.CENTER_LEFT);
@@ -158,14 +158,14 @@ public class MainController {
         }
 
         Label titleLabel = new Label(title);
-        // 可以加一个 class（可选）
+        // Optionally add a CSS class
         titleLabel.getStyleClass().add("nav-label");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label countLabel = new Label("0");
-        countLabel.getStyleClass().add("list-count"); // 用 CSS 控制颜色和字号
+        countLabel.getStyleClass().add("list-count"); // Style via CSS
 
         row.getChildren().addAll(titleLabel, spacer, countLabel);
         btn.setGraphic(row);
@@ -174,8 +174,8 @@ public class MainController {
     }
 
     /**
-     * 辅助方法：集中管理所有 FXML 元素的事件绑定。
-     * （保留你原来的写法，只是加上 Overdue）
+     * Helper method: centralize all event bindings for FXML elements.
+     * (Keep your original logic, just add Overdue)
      */
     private void bindActionEvents() {
         if (searchField != null) searchField.setOnAction(e -> performSearch());
@@ -203,11 +203,11 @@ public class MainController {
 
 
     // =========================================================================
-    // 5. 核心任务操作 (增 / 删 / 改)
+    // 5. Core task operations (Create / Delete / Update)
     // =========================================================================
 
     /**
-     * 快速添加任务 (从底部浮动栏)
+     * Quick add task (from floating bar at the bottom)
      */
     private void addQuickTask() {
         String text = quickAddField.getText();
@@ -232,7 +232,7 @@ public class MainController {
     }
 
     /**
-     * [PUBLIC] 删除一个任务。
+     * [PUBLIC] Delete a task.
      */
     public void deleteTask(Task task) {
         if (task == null || SPACER_TITLE.equals(task.getTitle())) return;
@@ -255,7 +255,7 @@ public class MainController {
     }
 
     /**
-     * [PUBLIC] 切换任务的完成状态。
+     * [PUBLIC] Toggle completion status for a task.
      */
     public void toggleCompletion(Task task) {
         if (task == null || SPACER_TITLE.equals(task.getTitle())) return;
@@ -268,7 +268,7 @@ public class MainController {
     }
 
     /**
-     * [PUBLIC] 打开任务详情对话框 (用于添加或编辑)。
+     * [PUBLIC] Open task detail dialog (for add or edit).
      */
     public void openTaskDetailDialog(Task taskToEdit) {
         try {
@@ -276,7 +276,7 @@ public class MainController {
             DialogPane pane = loader.load();
             TaskDetailController controller = loader.getController();
 
-            // 传递 masterLists
+            // Pass masterLists to the dialog
             controller.loadData(taskToEdit, masterLists);
 
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -316,7 +316,7 @@ public class MainController {
 
 
     // =========================================================================
-    // 6. 弹窗与对话框管理 (Alerts & Dialogs)
+    // 6. Alerts & dialog management
     // =========================================================================
 
     private void showSuccessAlert(String header, String content) {
@@ -360,7 +360,7 @@ public class MainController {
     }
 
     /**
-     * 使用自定义 FXML 弹窗创建新的列表（带图标选择）
+     * Create a new list using a custom FXML dialog (with icon selection)
      */
     @FXML
     private void handleAddNewList() {
@@ -374,7 +374,7 @@ public class MainController {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setTitle("New List");
             dialog.setDialogPane(pane);
-            pane.getButtonTypes().clear(); // 用我们自己的 OK/Cancel
+            pane.getButtonTypes().clear(); // Use our own OK/Cancel buttons
             dialog.showAndWait();
 
             if (controller.isOkClicked()) {
@@ -403,7 +403,7 @@ public class MainController {
 
 
     // =========================================================================
-    // 7. 过滤与搜索逻辑 (Filtering & Search)
+    // 7. Filtering & search logic
     // =========================================================================
 
     private void performSearch() {
@@ -462,7 +462,7 @@ public class MainController {
     }
 
     /**
-     * 导航过滤逻辑 + Overdue
+     * Navigation filter logic + Overdue
      */
     private boolean isNavFilterMatch(Task task) {
         if (SPACER_TITLE.equals(task.getTitle())) return true;
@@ -490,7 +490,7 @@ public class MainController {
 
 
     // =========================================================================
-    // 8. 数据持久化 (Load / Save)
+    // 8. Data persistence (Load / Save)
     // =========================================================================
 
     private void loadTasks() {
@@ -527,7 +527,7 @@ public class MainController {
     }
 
     /**
-     * 从 lists.json 加载自定义列表（每行：name|iconPath）
+     * Load custom lists from lists.json (each line: name|iconPath)
      */
     private void loadLists() {
         if (!LISTS_DATA_FILE.exists()) {
@@ -555,7 +555,7 @@ public class MainController {
     }
 
     /**
-     * 保存 lists.json：每行一个列表：name|iconPath
+     * Save lists.json: one list per line -> name|iconPath
      */
     private void saveLists() {
         try {
@@ -572,7 +572,7 @@ public class MainController {
     }
 
     /**
-     * 更新左侧 LISTS 区域（使用 ListInfo：图标 + 名称 + 右侧数量）
+     * Update the left LISTS area (use ListInfo: icon + name + right-side count)
      */
     private void updateListSidebar() {
         if (listContainer == null) {
@@ -590,7 +590,7 @@ public class MainController {
             HBox row = new HBox(8);
             row.setAlignment(Pos.CENTER_LEFT);
 
-            // 图标
+            // Icon
             if (li.getIconPath() != null && !li.getIconPath().isBlank()) {
                 try {
                     var url = getClass().getResource(li.getIconPath());
@@ -606,13 +606,13 @@ public class MainController {
                 }
             }
 
-            // 名称
+            // Name
             Label nameLabel = new Label(li.getName());
 
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
 
-            // 数量
+            // Count
             int count = getTaskCountForList(li.getName());
             Label countLabel = new Label(String.valueOf(count));
             countLabel.getStyleClass().add("list-count");
@@ -622,7 +622,7 @@ public class MainController {
 
             listButton.setOnAction(event -> setListFilter(li.getName(), listButton));
 
-            // 右键菜单：删除列表
+            // Context menu: delete list
             ContextMenu contextMenu = new ContextMenu();
             MenuItem deleteItem = new MenuItem("Delete List");
             deleteItem.setOnAction(event -> deleteList(li));
@@ -647,7 +647,7 @@ public class MainController {
     }
 
     /**
-     * 删除一个自定义列表
+     * Delete a custom list
      */
     private void deleteList(ListInfo listInfo) {
         String listName = listInfo.getName();
@@ -684,7 +684,7 @@ public class MainController {
     }
 
 
-    // === 顶部分类数字统计 ===
+    // === Top category number statistics ===
 
     private boolean isRealTask(Task t) {
         return t != null && !SPACER_TITLE.equals(t.getTitle());
@@ -730,31 +730,31 @@ public class MainController {
 
 
         // ============================================================
-        // 🎨 数字颜色 — 完全与图标配色一致（不改布局）
+        // Number colors — fully aligned with icon colors (no layout change)
         // ============================================================
 
         if (todayCountLabel != null)
-            todayCountLabel.setStyle("-fx-text-fill: #FFCC00;");     // Today 黄色
+            todayCountLabel.setStyle("-fx-text-fill: #FFCC00;");     // Today yellow
 
         if (importantCountLabel != null)
-            importantCountLabel.setStyle("-fx-text-fill: #AF52DE;"); // Important 紫色
+            importantCountLabel.setStyle("-fx-text-fill: #AF52DE;"); // Important purple
 
         if (allCountLabel != null)
-            allCountLabel.setStyle("-fx-text-fill: #007AFF;");       // All 蓝色
+            allCountLabel.setStyle("-fx-text-fill: #007AFF;");       // All blue
 
         if (pendingCountLabel != null)
-            pendingCountLabel.setStyle("-fx-text-fill: #FF3B30;");   // Pending 红色
+            pendingCountLabel.setStyle("-fx-text-fill: #FF3B30;");   // Pending red
 
         if (overdueCountLabel != null)
-            overdueCountLabel.setStyle("-fx-text-fill: #FFCC00;");   // Overdue 黄色
+            overdueCountLabel.setStyle("-fx-text-fill: #FFCC00;");   // Overdue yellow
 
         if (completedCountLabel != null)
-            completedCountLabel.setStyle("-fx-text-fill: #8E8E93;"); // Completed 灰色
+            completedCountLabel.setStyle("-fx-text-fill: #8E8E93;"); // Completed gray
     }
 
 
     // =========================================================================
-    // 9. FXML 事件处理器 (菜单栏 & 快捷方式)
+    // 9. FXML event handlers (menu bar & shortcuts)
     // =========================================================================
 
     @FXML private void handleExit() {
@@ -826,7 +826,7 @@ public class MainController {
         }
     }
 
-    // --- FXML 快捷方式 (用于 SceneBuilder 'onAction') ---
+    // --- FXML shortcuts (used by SceneBuilder 'onAction') ---
     @FXML public void onQuickAdd()       { addQuickTask(); }
     @FXML public void onAddDetails()     { openTaskDetailDialog(null); }
     @FXML public void onSearchClicked()  { performSearch(); }
