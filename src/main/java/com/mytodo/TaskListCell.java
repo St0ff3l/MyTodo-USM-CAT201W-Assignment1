@@ -88,7 +88,8 @@ public class TaskListCell extends ListCell<Task> {
 
         // (编辑按钮... 保持不变)
         Button editBtn = new Button("Edit");
-        editBtn.getStyleClass().add("btn-edit");
+        //已经为“edit”按钮添加颜色的css更新StyleClass
+        editBtn.getStyleClass().addAll("flat-ghost", "edit");
         editBtn.setOnAction(e -> {
             Task t = getItem();
             if (t != null) controller.openTaskDetailDialog(t);
@@ -96,7 +97,8 @@ public class TaskListCell extends ListCell<Task> {
 
         // (删除按钮... 保持不变)
         Button deleteBtn = new Button("Delete");
-        deleteBtn.getStyleClass().add("btn-delete");
+        //已经为“delete”按钮添加颜色的css更新StyleClass
+        deleteBtn.getStyleClass().addAll("flat-ghost", "delete");
         deleteBtn.setOnAction(e -> {
             Task t = getItem();
             if (t != null) controller.deleteTask(t);

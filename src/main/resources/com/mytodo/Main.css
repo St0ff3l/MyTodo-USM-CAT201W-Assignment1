@@ -253,6 +253,15 @@
     -fx-border-color: #3a7afe;
     -fx-border-radius: 10;
 }
+/* 让 nav-item 里的 Label 用深灰色文字 */
+.button.nav-item .label {
+    -fx-text-fill: #202124;
+}
+
+/* 选中的 nav-item（蓝条高亮）里的 Label 变成蓝色文字 */
+.button.nav-item.selected .label {
+    -fx-text-fill: #1b56ff;
+}
 
 
 /* =========================================
@@ -577,6 +586,31 @@
 
 
 /* 11.8 (无变化) - 按钮样式 */
+/* =====================
+   Edit / Delete 按钮主题色
+   ===================== */
+
+/* Edit：柔和蓝 */
+.button.flat-ghost.edit {
+    -fx-background-color: rgba(80,140,255,0.18);
+    -fx-text-fill: #1b56ff;
+    -fx-background-radius: 18;
+    -fx-padding: 6 18;
+}
+.button.flat-ghost.edit:hover {
+    -fx-background-color: rgba(80,140,255,0.28);
+}
+
+/* Delete：柔和红 */
+.button.flat-ghost.delete {
+    -fx-background-color: rgba(255,90,90,0.18);
+    -fx-text-fill: #d32f2f;
+    -fx-background-radius: 18;
+    -fx-padding: 6 18;
+}
+.button.flat-ghost.delete:hover {
+    -fx-background-color: rgba(255,90,90,0.28);
+}
 
 
 /* 11.9 (无变化) - 标签 (Labels) */
@@ -585,4 +619,115 @@
     -fx-text-fill: #333;
     -fx-font-weight: 500;
     -fx-padding: 5 0 2 2;
+}
+
+/* 11.10===============================
+   圆形图标选择按钮（新建列表弹窗用）
+   ==================================== */
+.icon-choice-btn {
+    -fx-min-width: 42;
+    -fx-min-height: 42;
+    -fx-max-width: 42;
+    -fx-max-height: 42;
+    -fx-background-radius: 21;
+    -fx-background-color: #F2F3F7;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.icon-choice-btn:hover {
+    -fx-background-color: #E5E7EB;
+}
+
+/* 被选中的图标：浅蓝底 + 蓝色描边 */
+.icon-choice-btn.selected {
+    -fx-background-color: #D8E2FF;
+    -fx-border-color: #3A7AFE;
+    -fx-border-width: 2;
+    -fx-border-radius: 21;
+}
+/* 侧边栏右侧数量数字 */
+.list-count {
+    -fx-text-fill: #202124;  /* 纯黑偏深灰，和左侧文字风格一致 */
+    -fx-font-size: 11px;
+    -fx-opacity: 0.95;
+}
+
+/* 可选：标题文字，保证也是黑色 */
+.nav-label {
+    -fx-text-fill: #202124;
+}
+/* ============================
+   分类数字颜色（仅固定分类）
+   ============================ */
+
+/* Today（蓝色） */
+.nav-count.today-count {
+    -fx-text-fill: #2D6AE0;
+}
+
+/* Important（红色） */
+.nav-count.important-count {
+    -fx-text-fill: #D93025;
+}
+
+/* All（灰色） */
+.nav-count.all-count {
+    -fx-text-fill: #555555;
+}
+
+/* Pending（橙色） */
+.nav-count.pending-count {
+    -fx-text-fill: #FF8C00;
+}
+
+/* Overdue（黄色） */
+.nav-count.overdue-count {
+    -fx-text-fill: #E6B800;
+}
+
+/* Completed（绿色） */
+.nav-count.completed-count {
+    -fx-text-fill: #2E8B57;
+}
+
+/* 自定义列表：数字始终黑色 */
+.nav-count.userlist-count {
+    -fx-text-fill: #000000;
+}
+
+/* ============================================
+   🍏 保留 thumb，隐藏一切其他滚动条 UI
+   ============================================ */
+
+/* 1. 隐藏整个滚动条背景（只有保留 thumb） */
+.scroll-bar {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+/* 2. 隐藏上下箭头按钮 */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-opacity: 0; /* 完全隐藏 */
+}
+
+/* 3. 隐藏箭头图标 */
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-opacity: 0; /* 完全隐藏 */
+}
+
+/* 4. 隐藏轨道（只让滑块悬浮） */
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+/* 5. 保留 thumb（滑块）的默认样式，不修改它） */
+.scroll-bar .thumb {
+    -fx-background-insets: 0;
 }
