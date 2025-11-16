@@ -25,7 +25,7 @@
             </HBox>
 
             <!-- 内容标签（支持换行，显示版本/特性等信息） -->
-            <Label fx:id="contentLabel" alignment="TOP_LEFT" minHeight="100.0" styleClass="alert-content-text" wrapText="true" />
+            <Label fx:id="contentLabel" alignment="TOP_LEFT" minHeight="150.0" styleClass="alert-content-text" wrapText="true" />
 
             <!-- 仅保留 OK 按钮（靠右对齐） -->
             <HBox alignment="CENTER_RIGHT" spacing="10">

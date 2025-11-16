@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
@@ -23,72 +25,57 @@
         <children>
 
             <VBox fx:id="sidebar" prefHeight="634.0" prefWidth="260.0" spacing="8" style="-fx-background-radius: 16; -fx-padding: 10;">
-
                 <children>
 
                     <MenuBar prefHeight="14.0" prefWidth="239.0" styleClass="menu-bar-rounded">
                         <menus>
-                            <Menu text="File">
-                                <items><MenuItem onAction="#handleExit" text="Exit" /></items>
-                            </Menu>
-                            <Menu text="Edit">
-                                <items><MenuItem onAction="#handleDeleteCompleted" text="Delete All Completed" /></items>
-                            </Menu>
-                            <Menu text="Help">
-                                <items><MenuItem onAction="#handleHelp" text="About" /></items>
-                            </Menu>
+                            <Menu text="File"><items><MenuItem onAction="#handleExit" text="Exit" /></items></Menu>
+                            <Menu text="Edit"><items><MenuItem onAction="#handleDeleteCompleted" text="Delete All Completed" /></items></Menu>
+                            <Menu text="Help"><items><MenuItem onAction="#handleHelp" text="About" /></items></Menu>
                         </menus>
                     </MenuBar>
-
                     <Button fx:id="btnToday" maxWidth="Infinity" onAction="#onFilterToday" prefHeight="26.0" styleClass="nav-item">
-                        <graphic>
-                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
-                                <image><Image url="@icons/today.png" /></image>
-                            </ImageView>
-                        </graphic>
+                        <graphic><ImageView fitHeight="18" fitWidth="18" preserveRatio="true"><image><Image url="@icons/today.png" /></image></ImageView></graphic>
                         <text>Today</text>
                     </Button>
-
                     <Button fx:id="btnImportant" maxWidth="Infinity" onAction="#onFilterImportant" styleClass="nav-item">
-                        <graphic>
-                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
-                                <image><Image url="@icons/star.png" /></image>
-                            </ImageView>
-                        </graphic>
+                        <graphic><ImageView fitHeight="18" fitWidth="18" preserveRatio="true"><image><Image url="@icons/star.png" /></image></ImageView></graphic>
                         <text>Important</text>
                     </Button>
-
                     <Button fx:id="btnAll" maxWidth="Infinity" onAction="#onFilterAll" styleClass="nav-item">
-                        <graphic>
-                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
-                                <image><Image url="@icons/list.png" /></image>
-                            </ImageView>
-                        </graphic>
+                        <graphic><ImageView fitHeight="18" fitWidth="18" preserveRatio="true"><image><Image url="@icons/list.png" /></image></ImageView></graphic>
                         <text>All</text>
                     </Button>
-
                     <Separator />
-
                     <Button fx:id="btnPending" maxWidth="Infinity" onAction="#onFilterPending" styleClass="nav-item">
-                        <graphic>
-                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
-                                <image><Image url="@icons/pending.png" /></image>
-                            </ImageView>
-                        </graphic>
+                        <graphic><ImageView fitHeight="18" fitWidth="18" preserveRatio="true"><image><Image url="@icons/pending.png" /></image></ImageView></graphic>
                         <text>Pending</text>
                     </Button>
-
                     <Button fx:id="btnFinished" maxWidth="Infinity" onAction="#onFilterFinished" styleClass="nav-item">
-                        <graphic>
-                            <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
-                                <image><Image url="@icons/check.png" /></image>
-                            </ImageView>
-                        </graphic>
+                        <graphic><ImageView fitHeight="18" fitWidth="18" preserveRatio="true"><image><Image url="@icons/check.png" /></image></ImageView></graphic>
                         <text>Completed</text>
                     </Button>
 
+
+                    <Separator />
+                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 5;">
+                        <VBox.margin><Insets top="5.0" /></VBox.margin>
+                        <children>
+                            <Label text="LISTS" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: gray;" />
+                            <Region HBox.hgrow="ALWAYS" />
+
+                            <Button fx:id="addNewListButton" onAction="#handleAddNewList" styleClass="btn-gray" text="+" />
+                        </children>
+                    </HBox>
+                    <ScrollPane hbarPolicy="NEVER" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                        <content>
+                            <VBox fx:id="listContainer" spacing="5" />
+                        </content>
+                        <VBox.margin><Insets top="5.0" /></VBox.margin>
+                    </ScrollPane>
                 </children>
             </VBox>
+
 
             <StackPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <children>
@@ -97,21 +84,14 @@
                         <children>
 
                             <HBox alignment="CENTER_LEFT" spacing="8" styleClass="search-container" HBox.hgrow="ALWAYS">
-
                                 <ImageView fitHeight="14" fitWidth="14" preserveRatio="true" styleClass="search-icon">
-                                    <image>
-                                        <Image url="@icons/search_icon.png" />
-                                    </image>
+                                    <image><Image url="@icons/search_icon.png" /></image>
                                 </ImageView>
-
                                 <TextField fx:id="searchField" maxHeight="28" promptText="Search tasks..." styleClass="search-field" HBox.hgrow="ALWAYS" />
-
                                 <Region HBox.hgrow="ALWAYS" />
-
                                 <Button fx:id="filterBtn" onAction="#onSearchClicked" styleClass="btn-search" text="Search">
                                     <font><Font size="14.0" /></font>
                                 </Button>
-
                             </HBox>
 
                             <ListView fx:id="taskList" style="-fx-padding: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
@@ -120,32 +100,20 @@
                     </VBox>
 
                     <HBox fx:id="floatingAddBox" alignment="BOTTOM_CENTER" mouseTransparent="false" pickOnBounds="false" prefHeight="64.0" prefWidth="634.0" spacing="8" style="-fx-padding: 0 20 20 20;">
-
                         <children>
-
                             <HBox fx:id="quickAddContainer" alignment="CENTER_LEFT" maxHeight="44" maxWidth="520" minHeight="44" minWidth="360" prefHeight="44" prefWidth="466.0" spacing="8" styleClass="quick-add-container">
-
                                 <children>
-
                                     <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="quickadd-icon">
                                         <image><Image url="@icons/plus.png" /></image>
                                     </ImageView>
-
                                     <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefHeight="23.0" prefWidth="288.0" promptText="Quick add a task..." styleClass="quick-add-field" />
-
                                     <Region prefHeight="44.0" prefWidth="26.0" HBox.hgrow="ALWAYS" />
-
                                     <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="btn-add" text="Add" />
-
                                     <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="102.0" styleClass="btn-add-detail" text="Add Details..." />
-
                                 </children>
-
                             </HBox>
-
                         </children>
                     </HBox>
-
                 </children>
             </StackPane>
 
