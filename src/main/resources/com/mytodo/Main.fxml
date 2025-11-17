@@ -115,9 +115,9 @@
                                     <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="quickadd-icon">
                                         <image><Image url="@icons/plus.png" /></image>
                                     </ImageView>
-                                    <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefHeight="26.0" prefWidth="263.0" promptText="Quick add a task..." styleClass="quick-add-field" />
+                                    <TextField fx:id="quickAddField" onAction="#onQuickAdd" prefHeight="26.0" prefWidth="240.0" promptText="Quick add a task..." styleClass="quick-add-field" />
                                     <Button fx:id="quickAddBtn" onAction="#onQuickAdd" styleClass="btn-add" text="Add" />
-                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="102.0" styleClass="btn-add-detail" text="Add Details..." />
+                                    <Button fx:id="detailAddBtn" onAction="#onAddDetails" prefHeight="23.0" prefWidth="120.0" styleClass="btn-add-detail" text="Add Details..." />
                                 </children>
                             </HBox>
                         </children>
