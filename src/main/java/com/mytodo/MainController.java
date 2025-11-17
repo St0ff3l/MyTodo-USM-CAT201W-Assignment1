@@ -24,6 +24,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 // Java Standard Library
 import java.io.File;
@@ -81,6 +83,31 @@ public class MainController {
     private final JsonDataManager dataManager = new JsonDataManager();
     private final LocalTime DEFAULT_END_OF_DAY_TIME = LocalTime.of(23, 59);
     private static final String SPACER_TITLE = "(SPACER_ITEM)";
+
+    // ============== [修正 2: 新增安全路径配置和方法] ==============
+    private static final String APP_DIR = ".mytodo_app"; // 隐藏的配置文件夹
+    private static final String TASKS_FILE_NAME = "tasks.json";
+    private static final String LISTS_FILE_NAME = "lists.json";
+
+    /**
+     * 获取用户 Home 目录下安全的、可写入的 File 对象
+     */
+    private static File getSafeDataFile(String fileName) {
+        // 1. 获取用户主目录 (e.g., /Users/stoffel)
+        String homeDir = System.getProperty("user.home");
+
+        // 2. 构建数据目录 (e.g., /Users/stoffel/.mytodo_app)
+        File dataDir = Paths.get(homeDir, APP_DIR).toFile();
+
+        // 3. 确保目录存在 (这是关键!)
+        if (!dataDir.exists()) {
+            dataDir.mkdirs(); // 创建目录
+            System.out.println("[DEBUG] Created persistent data directory: " + dataDir.getAbsolutePath());
+        }
+
+        // 4. 返回最终的文件路径
+        return Paths.get(dataDir.getAbsolutePath(), fileName).toFile();
+    }
 
 
     // =========================================================================
@@ -494,8 +521,10 @@ public class MainController {
     // =========================================================================
 
     private void loadTasks() {
+        // ============== [修正 3: 使用安全路径] ==============
+        File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
-            var loaded = dataManager.load(DATA_FILE);
+            var loaded = dataManager.load(dataFile);
             if (loaded != null) {
                 masterTasks.addAll(loaded);
             }
@@ -506,12 +535,14 @@ public class MainController {
     }
 
     private void saveTasks() {
+        // ============== [修正 4: 使用安全路径] ==============
+        File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
             var toSaveList = masterTasks.stream()
                     .filter(t -> t != null && !SPACER_TITLE.equals(t.getTitle()))
                     .collect(Collectors.toList());
             ObservableList<Task> toSave = FXCollections.observableArrayList(toSaveList);
-            dataManager.save(DATA_FILE, toSave);
+            dataManager.save(dataFile, toSave);
             System.out.println("[DEBUG] Tasks saved. Count: " + toSave.size());
         } catch (Exception ex) {
             System.err.println("[ERROR] dataManager.save failed: " + ex.getMessage());
@@ -530,13 +561,15 @@ public class MainController {
      * Load custom lists from lists.json (each line: name|iconPath)
      */
     private void loadLists() {
-        if (!LISTS_DATA_FILE.exists()) {
-            System.out.println("[DEBUG] lists.json not found. No lists loaded.");
+        // ============== [修正 5: 使用安全路径] ==============
+        Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
+        if (!Files.exists(listPath)) {
+            System.out.println("[DEBUG] lists.json not found in persistent location. No lists loaded.");
             return;
         }
 
         try {
-            List<String> lines = Files.readAllLines(LISTS_DATA_FILE.toPath());
+            List<String> lines = Files.readAllLines(listPath);
             masterLists.clear();
 
             for (String line : lines) {
@@ -558,12 +591,14 @@ public class MainController {
      * Save lists.json: one list per line -> name|iconPath
      */
     private void saveLists() {
+        // ============== [修正 6: 使用安全路径] ==============
+        Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         try {
             List<String> lines = masterLists.stream()
                     .map(li -> li.getName() + "|" + (li.getIconPath() == null ? "" : li.getIconPath()))
                     .collect(Collectors.toList());
 
-            Files.write(LISTS_DATA_FILE.toPath(), lines);
+            Files.write(listPath, lines);
             System.out.println("[DEBUG] Lists saved to lists.json.");
         } catch (IOException e) {
             System.err.println("[ERROR] Failed to save lists.json: " + e.getMessage());
