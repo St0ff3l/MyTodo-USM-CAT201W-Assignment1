@@ -67,7 +67,7 @@
                 <configuration>
                     <mainClass>com.mytodo.Main</mainClass>
                     <appName>MyTodo</appName>
-                    <targetPlatform>mac</targetPlatform>
+                    <targetPlatform>win</targetPlatform>
                 </configuration>
             </plugin>
         </plugins>
