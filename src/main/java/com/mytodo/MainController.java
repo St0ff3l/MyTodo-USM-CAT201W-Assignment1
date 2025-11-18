@@ -348,7 +348,7 @@ public class MainController {
 
     private void showSuccessAlert(String header, String content) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mytodo/successMessageDialogView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mytodo/SuccessMessageDialogView.fxml"));
             DialogPane pane = loader.load();
             SuccessMessageDialogController controller = loader.getController();
             controller.setSuccessMessage(header, content);
@@ -521,7 +521,6 @@ public class MainController {
     // =========================================================================
 
     private void loadTasks() {
-        // ============== [修正 3: 使用安全路径] ==============
         File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
             var loaded = dataManager.load(dataFile);
@@ -535,7 +534,6 @@ public class MainController {
     }
 
     private void saveTasks() {
-        // ============== [修正 4: 使用安全路径] ==============
         File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
             var toSaveList = masterTasks.stream()
@@ -561,7 +559,6 @@ public class MainController {
      * Load custom lists from lists.json (each line: name|iconPath)
      */
     private void loadLists() {
-        // ============== [修正 5: 使用安全路径] ==============
         Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         if (!Files.exists(listPath)) {
             System.out.println("[DEBUG] lists.json not found in persistent location. No lists loaded.");
@@ -591,7 +588,6 @@ public class MainController {
      * Save lists.json: one list per line -> name|iconPath
      */
     private void saveLists() {
-        // ============== [修正 6: 使用安全路径] ==============
         Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         try {
             List<String> lines = masterLists.stream()

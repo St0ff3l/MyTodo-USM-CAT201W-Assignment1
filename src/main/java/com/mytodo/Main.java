@@ -13,11 +13,11 @@ public class Main extends Application {
         // Force application-wide locale to English so JavaFX built-in dialogs use English labels
         Locale.setDefault(Locale.ENGLISH);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mytodo/Main.fxml"));
         Scene scene = new Scene(loader.load(), 1000, 650);
 
         // ===== Load the new gradient theme stylesheet (Main.css) =====
-        scene.getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/mytodo/Main.css").toExternalForm());
 
         // Window title
         stage.setTitle("MyTodo");
