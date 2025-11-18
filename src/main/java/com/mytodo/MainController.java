@@ -590,7 +590,7 @@ public class MainController {
      * Save lists.json: one list per line -> name|iconPath
      */
     private void saveLists() {
-        // ============== [FIX 6: use safe path] ==============
+        // ============== [FIX 6: use safe path] ===============
         Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         try {
             List<String> lines = masterLists.stream()
