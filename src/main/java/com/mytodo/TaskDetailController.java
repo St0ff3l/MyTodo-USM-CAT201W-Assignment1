@@ -37,7 +37,6 @@ public class TaskDetailController {
         priorityBox.setValue("Normal");
         dueDatePicker.setValue(LocalDate.now());
         dueTimeSpinner.setEditable(true);
-
         okButton.setOnAction(event -> handleOk());
         cancelButton.setOnAction(event -> handleCancel());
     }

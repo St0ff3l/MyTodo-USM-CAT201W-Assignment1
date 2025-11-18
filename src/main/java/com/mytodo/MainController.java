@@ -347,7 +347,7 @@ public class MainController {
 
     private void showSuccessAlert(String header, String content) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mytodo/successMessageDialogView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mytodo/SuccessMessageDialogView.fxml"));
             DialogPane pane = loader.load();
             SuccessMessageDialogController controller = loader.getController();
             controller.setSuccessMessage(header, content);

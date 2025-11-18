@@ -28,7 +28,7 @@
                     <Insets left="15.0" />
                 </HBox.margin></DatePicker>
             <Label text="Time:" />
-            <Spinner fx:id="dueTimeSpinner" prefWidth="100" editable="true">
+            <Spinner fx:id="dueTimeSpinner" prefWidth="100">
                 <HBox.margin>
                     <Insets />
                 </HBox.margin></Spinner>

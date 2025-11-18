@@ -66,8 +66,6 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.mytodo.Main</mainClass>
-                    <appName>MyTodo</appName>
-                    <targetPlatform>mac</targetPlatform>
                 </configuration>
             </plugin>
         </plugins>
