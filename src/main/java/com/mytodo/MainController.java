@@ -84,28 +84,28 @@ public class MainController {
     private final LocalTime DEFAULT_END_OF_DAY_TIME = LocalTime.of(23, 59);
     private static final String SPACER_TITLE = "(SPACER_ITEM)";
 
-    // ============== [修正 2: 新增安全路径配置和方法] ==============
-    private static final String APP_DIR = ".mytodo_app"; // 隐藏的配置文件夹
+    // ============== [FIX 2: add safe path configuration and method] ==============
+    private static final String APP_DIR = ".mytodo_app"; // Hidden configuration folder
     private static final String TASKS_FILE_NAME = "tasks.json";
     private static final String LISTS_FILE_NAME = "lists.json";
 
     /**
-     * 获取用户 Home 目录下安全的、可写入的 File 对象
+     * Get a safe, writable File object under the user's home directory
      */
     private static File getSafeDataFile(String fileName) {
-        // 1. 获取用户主目录 (e.g., /Users/stoffel)
+        // 1. Get user home directory (e.g., /Users/stoffel)
         String homeDir = System.getProperty("user.home");
 
-        // 2. 构建数据目录 (e.g., /Users/stoffel/.mytodo_app)
+        // 2. Build data directory (e.g., /Users/stoffel/.mytodo_app)
         File dataDir = Paths.get(homeDir, APP_DIR).toFile();
 
-        // 3. 确保目录存在 (这是关键!)
+        // 3. Ensure directory exists (this is important!)
         if (!dataDir.exists()) {
-            dataDir.mkdirs(); // 创建目录
+            dataDir.mkdirs(); // Create directory
             System.out.println("[DEBUG] Created persistent data directory: " + dataDir.getAbsolutePath());
         }
 
-        // 4. 返回最终的文件路径
+        // 4. Return final file path
         return Paths.get(dataDir.getAbsolutePath(), fileName).toFile();
     }
 
@@ -202,7 +202,6 @@ public class MainController {
 
     /**
      * Helper method: centralize all event bindings for FXML elements.
-     * (Keep your original logic, just add Overdue)
      */
     private void bindActionEvents() {
         if (searchField != null) searchField.setOnAction(e -> performSearch());
@@ -521,7 +520,7 @@ public class MainController {
     // =========================================================================
 
     private void loadTasks() {
-        // ============== [修正 3: 使用安全路径] ==============
+        // ============== [FIX 3: use safe path] ==============
         File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
             var loaded = dataManager.load(dataFile);
@@ -535,7 +534,7 @@ public class MainController {
     }
 
     private void saveTasks() {
-        // ============== [修正 4: 使用安全路径] ==============
+        // ============== [FIX 4: use safe path] ==============
         File dataFile = getSafeDataFile(TASKS_FILE_NAME);
         try {
             var toSaveList = masterTasks.stream()
@@ -561,7 +560,7 @@ public class MainController {
      * Load custom lists from lists.json (each line: name|iconPath)
      */
     private void loadLists() {
-        // ============== [修正 5: 使用安全路径] ==============
+        // ============== [FIX 5: use safe path] ==============
         Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         if (!Files.exists(listPath)) {
             System.out.println("[DEBUG] lists.json not found in persistent location. No lists loaded.");
@@ -591,7 +590,7 @@ public class MainController {
      * Save lists.json: one list per line -> name|iconPath
      */
     private void saveLists() {
-        // ============== [修正 6: 使用安全路径] ==============
+        // ============== [FIX 6: use safe path] ==============
         Path listPath = getSafeDataFile(LISTS_FILE_NAME).toPath();
         try {
             List<String> lines = masterLists.stream()
