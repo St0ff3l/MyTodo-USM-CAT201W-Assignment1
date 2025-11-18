@@ -36,7 +36,6 @@ public class TaskDetailController {
         priorityBox.setItems(FXCollections.observableArrayList("Low", "Normal", "High"));
         priorityBox.setValue("Normal");
         dueDatePicker.setValue(LocalDate.now());
-        dueTimeSpinner.setEditable(true);
 
         okButton.setOnAction(event -> handleOk());
         cancelButton.setOnAction(event -> handleCancel());
